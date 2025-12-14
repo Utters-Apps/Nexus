@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Mobile-first, no zoom to keep cloud gaming controls stable -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="Content-Security-Policy" content="frame-ancestors https://websim.com https://utters-apps.github.io;">
+    <meta http-equiv="X-Frame-Options" content="ALLOW-FROM https://websim.com">
+    <title>Nexus Cloud</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="ICON.png">
+    <link rel="shortcut icon" href="ICON.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="ICON.png">
+    <link rel="icon" sizes="192x192" href="ICON.png">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+      /* Mobile bottom nav: visible only on small screens */
+      .mobile-bottom-bar{
+        display:none;
+      }
+      @media(max-width:640px){
+        /* Keep the bottom bar above mobile browser chrome by using the safe-area inset.
+           Add a small additional offset so the bar does not get occluded when the browser UI floats. */
+        .mobile-bottom-bar{
+          display:flex;
+          position:fixed;
+          left:8px;
+          right:8px;
+          /* sit above the safe-area inset while visually reaching the edges */
+          bottom: calc(env(safe-area-inset-bottom, 12px) + 8px);
+          padding: 8px calc(env(safe-area-inset-left, 6px) + 8px) calc(env(safe-area-inset-bottom, 6px) + 8px) calc(env(safe-area-inset-right, 6px) + 8px);
+          margin: 0;
+          border-radius: 14px;
+          gap:12px;
+          justify-content:space-between;
+          align-items:center;
+          max-width:720px;
+          margin-left:auto;
+          margin-right:auto;
+          z-index:9999;
+          background: linear-gradient(180deg, rgba(12,14,22,0.72), rgba(8,10,16,0.56));
+          border: 1px solid rgba(255,255,255,0.04);
+          box-shadow: 0 10px 30px rgba(2,6,23,0.55), 0 2px 8px rgba(0,0,0,0.5);
+          backdrop-filter: blur(12px) saturate(110%);
+          -webkit-backdrop-filter: blur(12px) saturate(110%);
+          touch-action: manipulation;
+          transition: transform 240ms cubic-bezier(.2,1,.22,1), opacity 180ms ease;
+        }
+        /* ensure main content reserves space so page content isn't covered by the bar (accounts for safe-area too) */
+        main {
+          padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 84px);
+        }
+        .mobile-bottom-bar .mobile-tab-btn{
+          min-width:64px;
+          height:56px;
+          border-radius:12px;
+          display:inline-flex;
+          align-items:center;
+          justify-content:center;
+          gap:8px;
+          padding:0 12px;
+          font-weight:800;
+          color:rgb(148,163,184);
+          background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
+          border:1px solid rgba(255,255,255,0.03);
+          box-shadow: 0 8px 22px rgba(0,0,0,0.55);
+          transition: transform 180ms cubic-bezier(.2,1,.22,1), background 160ms ease, color 160ms ease;
+          font-size:16px;
+          -webkit-tap-highlight-color: transparent;
+        }
+        .mobile-bottom-bar .mobile-tab-btn i { font-size:18px; }
+        .mobile-bottom-bar .mobile-tab-btn.tab-btn-active{
+          color:#071028;
+          background: linear-gradient(90deg, #7c3aed 0%, #06b6d4 100%);
+          transform: translateY(-4px);
+          box-shadow: 0 16px 36px rgba(124,58,237,0.12);
+        }
+        /* compact label area to the left for an optional badge or quick title */
+        .mobile-bottom-bar .mobile-tab-left {
+          display:flex;
+          gap:8px;
+          align-items:center;
+          flex:1 1 auto;
+          min-width:0;
+        }
+        .mobile-bottom-bar .mobile-tab-actions {
+          display:flex;
+          gap:8px;
+          align-items:center;
+          justify-content:flex-end;
+          flex:0 0 auto;
+        }
+        /* hide the small top mobile chips to avoid duplicate UI */
+        .sm\\:hidden { display:none !important; }
+
+        /* Hide the duplicate right-side navbar avatar on mobile to keep only the mobile account button */
+        /* Keep navbar avatars visible on mobile; duplicates should be marked with a different class if they must be hidden. */
+        /* Previously hid the avatar on mobile which caused the profile icon to disappear; rule removed. */
+
+        /* Ensure the details modal appears above the mobile bottom bar and has breathing room on small screens */
+        #details-modal {
+          z-index: 11001 !important;
+          padding-bottom: calc(env(safe-area-inset-bottom) + 84px); /* ensure modal sits above bottom bar */
+        }
+        /* If modal card is anchored to bottom (mobile), lift it visually above the mobile bar */
+        #details-modal #modal-card {
+          margin-bottom: calc(env(safe-area-inset-bottom) + 12px);
+        }
+      }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col" oncontextmenu="return false;">
+
+    <!-- LOGIN SCREEN -->
+    <div id="login-screen"
+         class="fixed inset-0 z-[100] bg-[#020617] flex flex-col items-center justify-center p-4 transition-opacity duration-300">
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-blue-600/20 rounded-full blur-[100px] animate-float"></div>
+            <div class="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-purple-600/20 rounded-full blur-[100px] animate-float"
+                 style="animation-delay: 2s;">
+            </div>
+        </div>
+        <div class="relative z-10 w-full max-w-md glass-panel p-6 sm:p-8 rounded-2xl shadow-2xl text-center"
+             id="login-box">
+            <div class="mb-5 inline-block p-4 rounded-full bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-white/10">
+                <i class="fas fa-cloud text-3xl sm:text-4xl text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400"></i>
+            </div>
+            <h1 class="text-2xl sm:text-3xl font-bold mb-2 text-white tracking-tight">Welcome to Nexus</h1>
+            <p class="text-gray-400 mb-6 text-xs sm:text-sm">Sign in to continue your experience.</p>
+
+            <form id="login-form" class="space-y-4" novalidate>
+                <div class="flex items-center gap-3 mb-1">
+                    <div id="login-avatar" class="w-14 h-14 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center text-white font-black text-lg select-none">
+                        <span id="login-avatar-initials">N</span>
+                    </div>
+                    <div class="text-left">
+                        <div id="login-welcome" class="text-sm text-gray-300 font-semibold">Welcome back</div>
+                        <div id="login-subhint" class="text-xs text-gray-500">Sign in to continue</div>
+                    </div>
+                </div>
+
+                <div class="relative group">
+                    <i class="fas fa-user absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-400 transition-colors"></i>
+                    <input type="text"
+                           id="username-input"
+                           required
+                           autocomplete="username"
+                           placeholder="Username"
+                           aria-label="Username"
+                           class="w-full bg-[#0f172a] border border-gray-700 text-white pl-11 pr-4 py-3 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder-gray-600 text-sm">
+                </div>
+
+                <div class="relative group">
+                    <i class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-400 transition-colors"></i>
+                    <input type="password"
+                           id="password-input"
+                           required
+                           autocomplete="current-password"
+                           placeholder="Password"
+                           aria-label="Password"
+                           class="w-full bg-[#0f172a] border border-gray-700 text-white pl-11 pr-4 py-3 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder-gray-600 text-sm">
+                </div>
+
+                <div class="flex items-center justify-between text-xs text-gray-400">
+                    <label class="inline-flex items-center gap-2">
+                        <input id="remember-checkbox" type="checkbox" class="accent-blue-500" />
+                        <span>Remember me</span>
+                    </label>
+                    <button id="forgot-password" type="button" class="text-blue-400 hover:underline">Forgot?</button>
+                </div>
+
+                <div id="login-error" class="text-sm text-red-400 hidden"></div>
+
+                <button id="login-submit"
+                        type="submit"
+                        class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold py-3 rounded-xl shadow-lg shadow-purple-900/30 transform transition hover:scale-[1.02] active:scale-95 text-sm">
+                    Sign in
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MAIN APP (Hidden initially) -->
+    <div id="app-container" class="opacity-0 pointer-events-none transition-opacity duration-500">
+
+        <!-- Navbar -->
+        <nav id="navbar"
+             class="fixed top-0 w-full z-50 glass-nav py-2.5 px-3 sm:px-6 flex justify-between items-center transition-all duration-300">
+            <div class="flex items-center gap-2">
+                <i class="fas fa-gamepad text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 text-xl sm:text-2xl"></i>
+                <span class="font-bold text-lg tracking-tight text-white hidden sm:inline">NEXUS</span>
+                <a href="https://discord.gg/hze6KcXSNn" target="_blank" rel="noopener noreferrer"
+                   class="ml-2 hidden sm:inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#0b1220] border border-gray-700/60 text-xs text-gray-200 hover:bg-[#0e1626] transition"
+                   title="Join our Discord">
+                    <i class="fab fa-discord text-sm" aria-hidden="true"></i>
+                    <span class="hidden sm:inline">Discord</span>
+                </a>
+            </div>
+            <div class="flex items-center gap-3 w-full justify-end">
+                <div class="flex items-center bg-[#0b1220] rounded-full px-3 py-1.5 border border-gray-700/60 w-40 xs:w-52 sm:w-64 lg:w-72 shadow-sm shadow-black/50">
+                    <i class="fas fa-search text-gray-400 text-xs mr-2"></i>
+                    <input type="text"
+                           id="search-input"
+                           placeholder="Search games..."
+                           class="bg-transparent border-none text-xs sm:text-sm text-gray-300 focus:outline-none w-full"
+                           autocomplete="off">
+                </div>
+
+                <div class="hidden sm:flex items-center bg-[#020617]/60 border border-gray-700/60 rounded-full px-1.5 py-0.5 shadow-sm shadow-black/50">
+                    <button id="tab-home" class="tab-btn tab-btn-active" data-tab="home">
+                        <i class="fas fa-house-chimney"></i>
+                        <span>Home</span>
+                    </button>
+                    <button id="tab-favorites" class="tab-btn" data-tab="favorites">
+                        <i class="fas fa-heart"></i>
+                        <span>Favorites</span>
+                    </button>
+                </div>
+
+                <div class="flex sm:hidden items-center gap-1 mr-1">
+                    <!-- Mobile: show account name instead of duplicate avatar -->
+                    <div class="flex sm:hidden items-center gap-2 mr-1">
+                      <button id="mobile-account-btn" class="mobile-account-btn px-2 py-1 rounded-md text-xs font-semibold text-gray-200" aria-label="Account" title="Account">
+                        <span id="user-display-name-mobile" class="truncate max-w-[120px]">Guest</span>
+                      </button>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2 pl-3 border-l border-gray-700/50">
+                    <span id="user-display-name"
+                          class="text-xs sm:text-sm font-semibold text-gray-300 hidden sm:block">Guest</span>
+
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 sm:w-9 sm:h-9 user-avatar-mobile-hide rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center font-bold text-xs sm:text-sm shadow-inner border border-white/20">
+                            <i class="fas fa-user"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Content -->
+        <main class="relative z-10 pt-[64px] sm:pt-[68px] pb-20">
+            <!-- Home Content -->
+            <div id="home-content" class="px-3 sm:px-6 space-y-8 sm:space-y-10">
+                <!-- Hero Section -->
+                <header id="hero-section"
+                        class="relative h-[40vh] sm:h-[60vh] w-full rounded-2xl bg-cover bg-center object-cover flex items-end overflow-hidden group shadow-xl transition-all duration-500">
+                </header>
+
+                <!-- Dynamic Rows -->
+                <div id="dynamic-rows" class="space-y-8 sm:space-y-10"></div>
+            </div>
+
+            <!-- Favorites Content -->
+            <div id="favorites-content" class="px-3 sm:px-6 hidden animate-fade-in">
+                
+                <div id="favorites-grid"
+                     class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+                    <p id="no-favorites-msg"
+                       class="text-gray-500 col-span-full py-10 text-center text-sm sm:text-base">
+                        <i class="fas fa-exclamation-circle mr-2"></i>
+                        You haven't added any games to your favorites yet.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Search Results -->
+            <div id="search-results-content" class="px-3 sm:px-6 hidden animate-fade-in">
+                <h2 class="section-title border-blue-500">
+                    Results for "<span id="search-query-display"></span>"
+                </h2>
+                <div id="search-results-grid"
+                     class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+                    <p id="no-search-results-msg"
+                       class="text-gray-500 col-span-full py-10 text-center text-sm sm:text-base">
+                        <i class="fas fa-frown-open mr-2"></i>
+                        No games found.
+                    </p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Game Player Overlay -->
+    <div id="global-loader" class="fixed inset-0 z-[140] hidden items-center justify-center bg-black/80">
+        <div class="loader-card w-[88%] max-w-md p-6 rounded-2xl bg-gradient-to-b from-[#071028]/80 to-[#071028]/60 border border-white/6 text-center backdrop-blur-sm">
+            <div class="flex items-center justify-center mb-4">
+                <div class="glow-ring mr-4"></div>
+                <div style="text-align:left">
+                    <div id="global-loader-title" class="text-white font-bold text-lg">Loading...</div>
+                    <div id="global-loader-sub" class="text-gray-300 text-sm mt-1">Preparing session. This may take a moment.</div>
+                </div>
+            </div>
+            <div class="progress-track mt-4 rounded-full bg-white/6 h-3 overflow-hidden">
+                <div id="global-loader-bar" class="progress-fill h-full bg-gradient-to-r from-blue-500 to-purple-500 w-0"></div>
+            </div>
+            <div id="global-loader-hint" class="text-xs text-gray-400 mt-3">Tip: use F11 for fullscreen (desktop).</div>
+        </div>
+    </div>
+
+    <div id="game-layer"
+         class="fixed inset-0 z-[60] bg-[#020617] hidden flex-col animate-fade-in fullscreen-container">
+        <div class="h-12 sm:h-14 glass-nav flex justify-between items-center px-3 sm:px-6 shrink-0 z-10">
+            <div class="flex items-center gap-3">
+                <button id="btn-close-game"
+                        class="group flex items-center gap-2 text-gray-300 hover:text-white transition transform active:scale-95">
+                    <div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-white/20 transition-all">
+                        <i class="fas fa-arrow-left text-xs sm:text-sm"></i>
+                    </div>
+                    <span class="font-medium hidden sm:block text-sm">Back</span>
+                </button>
+                <div class="h-6 w-px bg-white/10 mx-1 sm:mx-2"></div>
+                <span id="playing-title"
+                      class="font-bold text-sm sm:text-lg text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 line-clamp-1">
+                    Game
+                </span>
+            </div>
+            <div class="flex gap-2 items-center">
+                <div id="game-volume-control" class="flex items-center gap-2 pr-2" style="min-width:120px;">
+                    <button id="btn-volume-toggle" class="bg-white/10 p-2 rounded-full text-white hover:bg-white/30 transition active:scale-95" title="Volume">
+                        <i id="volume-icon" class="fas fa-volume-up text-sm sm:text-lg"></i>
+                    </button>
+                    <input id="volume-slider" type="range" min="0" max="100" value="80" step="1"
+                           class="w-28 sm:w-36 h-2 rounded-full accent-blue-500 touch-none"
+                           aria-label="Adjust game volume">
+                </div>
+
+                <button id="btn-fullscreen"
+                        class="bg-white/10 p-2 rounded-full text-white hover:bg-white/30 transition hover:scale-110 active:scale-95">
+                    <i class="fas fa-expand text-sm sm:text-lg"></i>
+                </button>
+
+                <button id="btn-hide-toolbar"
+                        class="hidden bg-white/10 p-2 rounded-full text-white hover:bg-white/30 transition hover:scale-110 active:scale-95"
+                        title="Hide toolbar">
+                    <i class="fas fa-eye-slash text-sm sm:text-lg"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="game-frame-wrapper" class="flex-1 relative w-full h-full flex items-center justify-center bg-black">
+            <div id="loader"
+                 class="absolute loader ease-linear rounded-full border-4 border-t-4 border-gray-700 h-14 w-14 sm:h-16 sm:w-16 z-20"></div>
+            <p id="loading-status" class="absolute text-gray-400 text-sm mt-24 opacity-0 transition-opacity duration-300 z-20">
+                Starting streaming session...
+            </p>
+            <iframe id="game-frame"
+                    class="w-full h-full border-none z-10"
+                    allow="fullscreen; autoplay; clipboard-read; clipboard-write; gamepad"
+                    allowfullscreen
+                    sandbox="allow-scripts allow-same-origin allow-pointer-lock allow-forms">
+            </iframe>
+        </div>
+    </div>
+
+    <!-- Game Details Modal -->
+    <div id="details-modal"
+         class="fixed inset-0 z-50 bg-black/90 hidden items-end sm:items-center justify-center backdrop-blur-md transition-opacity duration-300">
+        <div id="modal-card"
+             class="bg-[#0f172a] w-full sm:w-[800px] sm:rounded-2xl rounded-t-3xl border border-white/10 overflow-hidden shadow-2xl transform transition-transform transition-opacity duration-300 translate-y-full sm:translate-y-0 relative opacity-0">
+
+            <!-- Close Button -->
+            <button id="modal-close"
+                    class="absolute top-3 right-3 sm:top-4 sm:right-4 z-20 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/50 hover:bg-white/20 text-white flex items-center justify-center backdrop-blur-sm transition-colors border border-white/10 transform transition active:scale-90">
+                <i class="fas fa-times text-sm"></i>
+            </button>
+
+            <!-- Banner Area -->
+            <div class="relative h-48 sm:h-[300px] w-full group">
+                <img id="modal-banner"
+                     src=""
+                     class="w-full h-full object-cover"
+                     loading="lazy"
+                     style="-webkit-transform:none; transform:none;">
+                <div class="absolute inset-0 bg-gradient-to-t from-[#0f172a] via-[#0f172a]/40 to-transparent"></div>
+                <div class="absolute bottom-0 left-0 p-5 sm:p-8 w-full">
+                    <div class="flex items-center gap-3 mb-1 opacity-0 animate-fade-in"
+                         style="animation-delay: 0.2s;">
+                        <span id="modal-cat"
+                              class="px-2 py-1 text-[10px] font-bold uppercase tracking-wider bg-blue-600 rounded text-white shadow-lg shadow-blue-500/30">
+                            Arcade
+                        </span>
+                    </div>
+                    <h2 id="modal-title"
+                        class="text-2xl sm:text-4xl font-black text-white mb-1 leading-none drop-shadow-xl opacity-0 animate-fade-in"
+                        style="animation-delay: 0.3s;">
+                        Title
+                    </h2>
+                </div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="p-5 sm:p-8 pt-3 grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="md:col-span-2 space-y-4 sm:space-y-6">
+                    <p id="modal-desc"
+                       class="text-gray-300 text-sm sm:text-base leading-relaxed font-light">
+                        Description goes here.
+                    </p>
+
+                    <div class="flex items-center gap-3 text-xs sm:text-sm text-gray-400 bg-white/5 p-3 rounded-lg border border-white/5">
+                        <i class="fas fa-keyboard text-gray-500 text-sm"></i>
+                        <span id="modal-controls">Default keyboard & mouse.</span>
+                    </div>
+
+                    <div class="flex gap-3 pt-1">
+                        <button id="modal-play-btn"
+                                class="flex-1 bg-white text-black py-3 rounded-xl font-bold hover:bg-gray-200 transition transform hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2 shadow-lg shadow-white/10 text-sm">
+                            <i class="fas fa-play"></i> Play now
+                        </button>
+                        <button id="modal-list-btn"
+                                class="flex-1 bg-white/10 text-white py-3 rounded-xl font-bold hover:bg-white/20 border border-white/10 transition transform hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2 text-sm">
+                            <i class="fas fa-heart"></i> Add to favorites
+                        </button>
+                        <button id="modal-share-btn"
+                                class="bg-white/10 text-white py-3 rounded-xl font-bold hover:bg-white/20 border border-white/10 transition transform hover:scale-[1.02] active:scale-95 flex items-center justify-content-center gap-2 text-sm">
+                            <i class="fas fa-share-alt"></i> Share
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Sidebar info -->
+                <div class="hidden md:block border-l border-white/10 pl-6 space-y-4 text-sm">
+                    <div class="text-gray-400">
+                        <span class="block text-gray-600 text-[11px] uppercase font-bold mb-1">Status</span>
+                        <span class="text-green-400 flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                            Online
+                        </span>
+                    </div>
+                    <div class="text-gray-400">
+                        <span class="block text-gray-600 text-[11px] uppercase font-bold mb-1">Quality</span>
+                        <span class="text-white">Cloud Streaming HD</span>
+                    </div>
+                    <div class="text-gray-400">
+                        <span class="block text-gray-600 text-[11px] uppercase font-bold mb-1">Best for</span>
+                        <span class="text-white">Stable Wi‑Fi or 5G</span>
+                    </div>
+
+                    <!-- Added developer & year -->
+                    <div class="text-gray-400">
+                        <span class="block text-gray-600 text-[11px] uppercase font-bold mb-1">Developer</span>
+                        <span id="modal-developer" class="text-white">—</span>
+                    </div>
+                    <div class="text-gray-400">
+                        <span class="block text-gray-600 text-[11px] uppercase font-bold mb-1">Released</span>
+                        <span id="modal-year" class="text-white">—</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Confirmation Modal (in-app) -->
+    <div id="confirm-modal" class="confirm-modal hidden" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="confirm-card">
+            <div class="confirm-body">
+                <div class="confirm-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                <div class="confirm-content">
+                    <h3 id="confirm-title">Confirm</h3>
+                    <p id="confirm-message">Are you sure?</p>
+                </div>
+            </div>
+            <div class="confirm-actions">
+                <button id="confirm-cancel" class="btn-cancel">Cancel</button>
+                <button id="confirm-ok" class="btn-ok">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast container -->
+    <div id="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+
+
+    <!-- Mobile bottom nav (Home / Favorites) -->
+    <div class="mobile-bottom-bar hidden" aria-hidden="true" role="navigation">
+      <button class="mobile-tab-btn tab-chip tab-btn-active" data-tab="home" id="mobile-tab-home" aria-label="Home">
+        <i class="fas fa-house-chimney"></i>
+        <span style="display:none">Home</span>
+      </button>
+      <button class="mobile-tab-btn tab-chip" data-tab="favorites" id="mobile-tab-favorites" aria-label="Favorites">
+        <i class="fas fa-heart"></i>
+        <span style="display:none">Favorites</span>
+      </button>
+      <!-- Discord button moved to mobile bottom bar -->
+      <a href="https://discord.gg/hze6KcXSNn" target="_blank" rel="noopener noreferrer" class="mobile-tab-btn tab-chip" id="mobile-discord-btn" aria-label="Discord" title="Discord" style="text-decoration:none;display:inline-flex;align-items:center;justify-content:center;">
+        <i class="fab fa-discord"></i>
+        <span style="display:none">Discord</span>
+      </a>
+    </div>
+
+    <!-- Mobile-incompatible warning modal (appears when trying to play certain games on mobile) -->
+    <div id="mobile-unsupported-modal" class="fixed inset-0 hidden p-4" aria-hidden="true" role="dialog" aria-modal="true">
+      <div class="absolute inset-0 bg-black/70 backdrop-blur-md transition-opacity duration-300" aria-hidden="true"></div>
+
+      <div class="relative z-50 mx-auto w-full max-w-lg transform rounded-2xl p-5 sm:p-8 bg-[#0f172a] border border-white/10 shadow-2xl opacity-0 translate-y-6 transition-all duration-320 will-change-transform" id="mobile-unsupported-card" role="document">
+        <div class="mb-3 inline-flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-br from-red-500 to-rose-600 mx-auto shadow-md">
+          <i class="fas fa-mobile-alt text-white text-2xl"></i>
+        </div>
+        <h3 id="mobile-unsupported-title" class="text-lg sm:text-2xl font-bold text-white mb-2">Not supported on mobile</h3>
+        <p id="mobile-unsupported-desc" class="text-gray-300 text-sm sm:text-base mb-4">This game is not compatible with mobile devices due to its embedded player or layout. Please open this game on a desktop or laptop for the full experience.</p>
+
+        <div class="flex gap-3 justify-center">
+          <button id="mobile-unsupported-ok" class="px-4 py-2 rounded-lg bg-gradient-to-r from-red-500 to-rose-500 text-white font-semibold focus:outline-none focus:ring-2 focus:ring-red-400" aria-label="Close dialog">OK</button>
+          <button id="mobile-unsupported-share" class="px-4 py-2 rounded-lg bg-white/6 text-white border border-white/8 hover:bg-white/8 focus:outline-none focus:ring-2 focus:ring-white/20" aria-label="Share link">Share link</button>
+        </div>
+
+        <div class="text-xs text-gray-500 mt-3">You can still add this game to your favorites to open it later on a supported device.</div>
+      </div>
+    </div>
+
+    <style>
+      /* Enhanced mobile-unsupported modal visuals and animation overrides to ensure it stays above other content */
+      #mobile-unsupported-modal { z-index: 13002; display: none; align-items: center; justify-content: center; }
+      #mobile-unsupported-modal[aria-hidden="false"] { display: flex !important; pointer-events:auto; }
+      /* Backdrop should not capture pointer events that belong to the card; allow clicks to pass through to the card */
+      #mobile-unsupported-modal .absolute { z-index: 13000; pointer-events: none; opacity: 0; transition: opacity 260ms ease; }
+      /* Card must receive pointer events and sit above backdrop */
+      #mobile-unsupported-card { z-index: 13002; max-width: 92vw; box-sizing: border-box; pointer-events: auto; transition: transform 320ms cubic-bezier(.22,.9,.35,1), opacity 260ms ease; transform-origin: center bottom; }
+
+      /* Enter/exit animation helpers */
+      #mobile-unsupported-card.modal-show {
+        opacity: 1 !important;
+        transform: translateY(0) scale(1) !important;
+      }
+      #mobile-unsupported-card.modal-hide {
+        opacity: 0 !important;
+        transform: translateY(12px) scale(.995) !important;
+      }
+
+      /* Ensure the backdrop fades in/out smoothly */
+      #mobile-unsupported-modal .absolute { opacity: 0; }
+      #mobile-unsupported-modal[aria-hidden="false"] .absolute { opacity: 1; }
+
+      /* Small card entrance easing when shown */
+      #mobile-unsupported-card { transform: translateY(12px) scale(.998); opacity: 0; }
+      #mobile-unsupported-modal[aria-hidden="false"] #mobile-unsupported-card { transform: translateY(0) scale(1); opacity: 1; }
+
+      /* Button tap / hover polish for modal */
+      #mobile-unsupported-card button {
+        transition: transform 160ms ease, background 160ms ease, box-shadow 160ms ease;
+        will-change: transform;
+      }
+      #mobile-unsupported-card button:active { transform: translateY(1px) scale(0.995); }
+
+      /* Make buttons easier to tap on mobile */
+      #mobile-unsupported-ok, #mobile-unsupported-share { min-width: 96px; min-height: 44px; touch-action: manipulation; }
+    </style>
+
+    <!-- PWA: manifest and theme -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#04060a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Nexus Cloud">
+    <!-- iOS splash / home icon (fallback to ICON.png) -->
+    <link rel="apple-touch-icon" href="/ICON.png">
+    <script src="app.js" type="module" defer></script>
+    <!-- Register service worker (registered from app.js) -->
+</body>
+</html>

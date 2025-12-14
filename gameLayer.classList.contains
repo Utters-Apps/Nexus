@@ -1,0 +1,9 @@
+try {
+    // final aggressive stop: set to about:blank and remove src to ensure browsers stop any playing media
+    try { gameFrame.src = 'about:blank'; } catch (e) {}
+    try { gameFrame.removeAttribute('src'); } catch (e) {}
+    try { gameFrame.srcdoc = ''; } catch (e) {}
+    try { gameFrame.style.opacity = '1'; } catch (e) {}
+} catch (err) {
+    // ignore
+}

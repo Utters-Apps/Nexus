@@ -1,0 +1,15 @@
+  /* bottom black bar to mask lower UI elements (covers ~10% of viewport) */
+  /* IMPORTANT: pointer-events:auto so this element captures clicks and prevents them reaching the iframe beneath */
+  .bottom-cut{position:absolute;left:0;right:0;bottom:0;height:var(--nexus-bottom-cut,6vh);background:#000;z-index:9999;pointer-events:auto;}
+</style>
+<script>
+  // Block context menu inside the embedded page (best-effort for same-origin and to instruct friendly embeds)
+  try {
+    window.addEventListener('contextmenu', function(e){ e.preventDefault(); }, { passive: false });
+    // Also expose a gentle stub for postMessage-based embeds that might honor it
+    window.addEventListener('message', function(evt){
+      // ignore specifics, but keep listener minimal
+    });
+  } catch (e){}
+</script>
+

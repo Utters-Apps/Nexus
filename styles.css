@@ -1,0 +1,3464 @@
+:root{
+  /* Refined primary palette for a modern, warm-night aesthetic */
+  --primary-700: #3730a3;
+  --primary-600: #4f46e5;
+  --primary-500: #7c3aed;
+  --primary-400: #a78bfa;
+
+  --accent-500: #06b6d4;
+  --accent-400: #34d399;
+  --accent-300: #60a5fa;
+
+  /* Gradients & accents (single source of truth for consistent accents) */
+  --accent-grad: linear-gradient(90deg, var(--primary-500) 0%, var(--accent-500) 100%);
+  --primary-gradient: linear-gradient(135deg, var(--primary-700) 0%, var(--primary-500) 100%);
+  --glass-accent: linear-gradient(90deg, rgba(124,58,237,0.12), rgba(6,182,212,0.08));
+
+  /* Canvas & surfaces */
+  --bg-deep: #04060a; /* darkest canvas */
+  --bg-elev: #071028; /* elevated surfaces */
+  --bg-soft: #0b1220; /* secondary surface */
+  --glass-border: rgba(255,255,255,0.06);
+
+  /* UI metrics (tighter, consistent sizing tokens) */
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --card-hover-scale: 1.06;
+  --elevation-1: 0 6px 18px rgba(2,6,23,0.55);
+  --elevation-2: 0 18px 48px rgba(2,6,23,0.68);
+
+  /* Interaction timings */
+  --fast: 110ms;
+  --medium: 220ms;
+  --slow: 360ms;
+  --spring: cubic-bezier(.2,1,.22,1);
+
+  /* Typography / color tokens */
+  --muted: #9aa3b3;
+  --soft-white: rgba(255,255,255,0.94);
+  --text-dim: #cbd5e1;
+  --success: #34d399;
+  --danger: #ef4444;
+
+  /* Layout helpers */
+  --nexus-bottom-cut: 6vh;
+  --content-max: 1280px;
+
+  /* Micro-shadow & sheen */
+  --sheen-color: rgba(255,255,255,0.04);
+  --glass-sheen: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.0));
+
+  /* Accessibility scale */
+  --focus-ring: rgba(99,102,241,0.14);
+
+  /* small motion reduction friendly defaults (overridable) */
+  --motion-duration: var(--medium);
+  --motion-ease: var(--spring);
+}
+
+/* Cleaned spacing above and added this tiny clarifying note to improve readability without duplicating rules */
+
+/* Small readability spacer so subsequent blocks remain visually separated */
+ 
+
+/* ---- Page base: richer, warmer dark canvas ---- */
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:'Outfit',system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+  background:
+    radial-gradient(600px 300px at 8% 18%, rgba(99,102,241,0.06), transparent 16%),
+    radial-gradient(700px 320px at 92% 82%, rgba(6,182,212,0.04), transparent 18%),
+    linear-gradient(180deg, rgba(255,255,255,0.01), transparent 45%),
+    var(--bg-deep);
+  color:var(--soft-white);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  overflow-x:hidden;
+  letter-spacing: -0.1px;
+}
+
+/* subtle, elegant glass + border */
+.glass-panel{
+  background: linear-gradient(180deg, rgba(10,12,18,0.62), rgba(6,8,14,0.46));
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(14px) saturate(120%);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+}
+
+/* refined nav glass */
+.glass-nav{
+  background: linear-gradient(180deg, rgba(6,8,14,0.88), rgba(3,5,11,0.82));
+  border-bottom: 1px solid rgba(124,58,237,0.06);
+  box-shadow: var(--elevation);
+  backdrop-filter: blur(12px);
+}
+
+/* TOP BAR - modernized: taller, sleeker, with stronger visual hierarchy */
+#navbar.glass-nav, .glass-nav {
+  height: 62px;
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-radius: 0 0 14px 14px;
+  /* slightly stronger gradient and subtle vignette */
+  background: linear-gradient(180deg, rgba(6,8,14,0.94), rgba(8,10,20,0.88));
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  box-shadow: 0 10px 30px rgba(2,6,23,0.55);
+}
+
+/* logo group refinement */
+#navbar .fa-gamepad {
+  font-size: 20px;
+  margin-right: 6px;
+  filter: drop-shadow(0 6px 18px rgba(124,58,237,0.08));
+}
+#navbar .font-bold {
+  letter-spacing: 0.6px;
+  font-size: 1rem;
+}
+
+/* search container elevation and rounded pill */
+#navbar .flex.items-center > .w-full {
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid rgba(255,255,255,0.04);
+  box-shadow: 0 6px 18px rgba(2,6,23,0.45), inset 0 -2px 6px rgba(255,255,255,0.01);
+}
+
+/* tab group polish */
+#navbar .tab-btn {
+  padding: 8px 12px;
+  font-size: 0.86rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.04);
+}
+#navbar .tab-btn i { margin-right:6px; font-size:0.92rem; }
+
+/* user area */
+#navbar .user-avatar-mobile-hide {
+  width:40px; height:40px; min-width:40px;
+  border-radius:12px;
+  font-weight:800;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.6);
+  border: 1px solid rgba(255,255,255,0.04);
+  background: linear-gradient(135deg,#4f46e5,#7c3aed);
+}
+
+/* subtle micro interactions for navbar items */
+#navbar button, #navbar a {
+  transition: transform 160ms var(--spring), box-shadow 160ms ease, background 160ms ease;
+}
+#navbar button:active, #navbar a:active { transform: translateY(1px) scale(0.995); }
+
+/* Row section title accent: use per-row variable --row-accent-<id> (set inline during render) */
+/* Provides a colored left stroke and a small pill accent to the left of title */
+.row-section h2 {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  padding-left: 0.75rem;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--soft-white);
+  letter-spacing: -0.1px;
+}
+
+/* left stroke using CSS variable set inline (fallback to default purple) */
+.row-section h2::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 28px;
+  border-radius: 6px;
+  background: var(--row-accent, linear-gradient(90deg,#7c3aed,#06b6d4));
+  box-shadow: 0 6px 18px rgba(0,0,0,0.45), 0 0 18px rgba(124,58,237,0.06) inset;
+  transform: translateX(-10px);
+}
+
+/* small circular badge matching accent to the left for compact visuals on mobile */
+.row-section h2 .section-accent-badge {
+  width:10px;height:10px;border-radius:999px;
+  background: var(--row-accent, #7c3aed);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.38);
+  display:inline-block;
+  margin-right:4px;
+  transform: translateX(-6px);
+}
+
+/* ensure inline styles applied earlier for border-left still work as fallback */
+.row-section h2[style] {
+  border-left: 0 !important;
+}
+
+/* responsive tweak: smaller stroke on narrow screens */
+@media (max-width: 640px) {
+  .row-section h2::before { width:5px; height:20px; transform: translateX(-8px); }
+  .row-section h2 { font-size: 1rem; }
+  #navbar.glass-nav { height:58px; padding:8px 12px; }
+}
+
+/* NEW: modernized row container visuals */
+.row-section {
+  padding: 14px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.012), rgba(255,255,255,0.006));
+  border: 1px solid rgba(255,255,255,0.025);
+  box-shadow: 0 8px 30px rgba(2,6,23,0.45);
+  transition: transform 260ms var(--spring), box-shadow 260ms ease, background 260ms ease;
+}
+
+/* Row header layout polish */
+.row-section .flex.items-center.justify-between {
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Controls group: compact, clear, elevated buttons */
+.row-controls {
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+
+/* View-all button: visually stronger CTA without dominating */
+.row-controls .row-view-all {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  padding:8px 12px;
+  border-radius:12px;
+  background: transparent;
+  color: #e6eef8;
+  border: 1px solid rgba(255,255,255,0.04);
+  min-width:44px;
+  height:40px;
+  transition: transform 160ms ease, background 160ms ease, box-shadow 160ms ease;
+}
+.row-controls .row-view-all:hover {
+  transform: translateY(-4px);
+  background: linear-gradient(90deg, rgba(124,58,237,0.12), rgba(6,182,212,0.06));
+  box-shadow: 0 8px 28px rgba(124,58,237,0.06);
+}
+
+/* Navigation chevrons: lighter, circular and consistent size */
+.row-nav-button {
+  width:44px;
+  height:44px;
+  border-radius:12px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:0;
+  background: rgba(255,255,255,0.02);
+  border:1px solid rgba(255,255,255,0.03);
+  color: #e6eef8;
+  transition: transform 140ms ease, background 140ms ease, box-shadow 140ms ease;
+}
+.row-nav-button:hover { transform: translateY(-3px); box-shadow: 0 10px 26px rgba(2,6,23,0.45); }
+.row-nav-button[aria-disabled="true"]{ opacity:0.4; pointer-events:none }
+
+/* Scroller spacing: give cards breathing room and subtle snap feel */
+.row-section .hide-scroll {
+  gap: 14px;
+  padding-bottom: 8px;
+  scroll-snap-type: x mandatory;
+}
+.row-section .hide-scroll > .game-card {
+  scroll-snap-align: start;
+  margin-inline-start: 6px;
+  margin-inline-end: 6px;
+}
+
+/* Slightly tighten card hover on rows to feel cohesive with row container */
+.row-section .game-card:hover {
+  transform: translateY(-10px) scale(calc(var(--card-hover-scale) - 0.02));
+  box-shadow: 0 28px 60px rgba(2,6,23,0.6);
+}
+
+/* Subtle header meta line */
+.row-section .subtitle {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 6px;
+  display:block;
+}
+
+/* compact spacing for mobile rows */
+@media (max-width: 640px) {
+  .row-section { padding: 10px; border-radius:12px; }
+  .row-controls .row-view-all { padding:8px 10px; height:44px; }
+  .row-section .hide-scroll { gap: 10px; }
+}
+
+/* full-screen container fixes & safe-area support */
+.fullscreen-container{
+  height:calc(var(--vh,1vh)*100);
+  inset:0;
+  position:fixed;
+  padding-top:env(safe-area-inset-top);
+  padding-bottom:env(safe-area-inset-bottom);
+}
+
+/* iOS/forced fullscreen visuals */
+.forced-fullscreen body, .forced-fullscreen .fullscreen-container, .forced-fullscreen #game-layer{
+  height:calc(var(--vh,1vh)*100) !important;
+  overflow:hidden !important;
+  position:fixed !important;
+  inset:0 !important;
+}
+
+/* typography scale and hero polish */
+.section-title{
+  font-size:1.28rem;
+  font-weight:800;
+  color:var(--soft-white);
+  letter-spacing:-0.2px;
+  border-left:4px solid transparent;
+  padding-left:0.75rem;
+  text-shadow: 0 10px 30px rgba(2,6,23,0.6);
+}
+
+/* buttons & chips with gradient depth */
+.tab-btn, .tab-chip{
+  background: transparent;
+  border-radius:999px;
+  padding:6px 12px;
+  font-weight:700;
+  color:var(--muted);
+  transition: all 180ms ease;
+  border:1px solid rgba(255,255,255,0.03);
+}
+.tab-btn-active{
+  color:white;
+  background:var(--accent-grad);
+  box-shadow: 0 8px 30px rgba(99,102,241,0.12);
+  transform: translateY(-1px);
+}
+
+/* rows and scrollers: smooth, touch-first */
+.hide-scroll{
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.hide-scroll::-webkit-scrollbar{height:6px}
+.hide-scroll::-webkit-scrollbar-thumb{background:rgba(148,163,184,0.28);border-radius:999px}
+
+/* row navigation refined */
+.row-nav-button{
+  width:44px;
+  height:44px;
+  border-radius:12px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow: 0 10px 26px rgba(2,6,23,0.55);
+  transition: transform 150ms ease, background 150ms ease;
+}
+.row-nav-button:hover{ transform: translateY(-3px) }
+.row-nav-button[aria-disabled="true"]{ opacity:0.36; pointer-events:none }
+
+/* Game cards: refreshed modern treatment — cleaner layering, soft glass, subtle depth & motion */
+.game-card{
+  background: linear-gradient(180deg, rgba(255,255,255,0.018), rgba(255,255,255,0.006));
+  border: 1px solid rgba(255,255,255,0.045);
+  border-radius:16px;
+  overflow:hidden;
+  transition: transform 260ms cubic-bezier(.2,1,.22,1), box-shadow 260ms ease, border-color 200ms linear;
+  will-change: transform, box-shadow;
+  min-width:220px;
+  max-width:320px;
+  position:relative;
+  isolation:isolate; /* keeps card shadow and hover effects isolated */
+  backface-visibility:hidden;
+}
+
+/* card inner surface to create layered glass + vignette */
+.game-card::before{
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));
+  mix-blend-mode: overlay;
+  border-radius: inherit;
+  z-index: 0;
+}
+
+/* image: keep crisp, slight parallax on hover */
+.game-card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transform-origin:center center;
+  transition: transform 560ms cubic-bezier(.22,.9,.35,1), filter 320ms ease, opacity 320ms ease;
+  z-index:1;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+/* subtle zoom + lift on hover, with a gentle desaturate to emphasize overlay content */
+.game-card:hover img{
+  transform: scale(1.06) translateZ(0);
+  filter: saturate(0.98) contrast(1.02);
+  opacity: 0.98;
+}
+
+/* card hover state: soft lift, glow, and accent border */
+.game-card:hover{
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 26px 64px rgba(2,6,23,0.6), 0 8px 28px rgba(124,58,237,0.06);
+  border-color: rgba(124,58,237,0.32);
+  z-index:40;
+}
+
+/* active / focus styles for keyboard accessibility */
+.game-card:focus-within, .game-card:focus {
+  outline: none;
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: 0 18px 46px rgba(2,6,23,0.58), 0 6px 20px rgba(99,102,241,0.06);
+  border-color: rgba(99,102,241,0.28);
+}
+
+/* small elevation on press to provide tactile feedback */
+.game-card:active {
+  transform: translateY(-4px) scale(0.995);
+  transition-duration: 120ms;
+  box-shadow: 0 10px 20px rgba(2,6,23,0.5);
+}
+
+/* ensure overlay content sits above decorative pseudo elements */
+.game-card > * { position: relative; z-index: 2; }
+
+/* compact card for library / search: tidy, accessible */
+.compact-card{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  background: linear-gradient(180deg, rgba(255,255,255,0.018), rgba(255,255,255,0.006));
+  border-radius:12px;
+  padding:10px;
+  border:1px solid rgba(255,255,255,0.03);
+  transition: transform 220ms ease, box-shadow 220ms ease;
+}
+.compact-thumb{ flex:0 0 110px; height:68px; border-radius:8px; overflow:hidden; background:#0b1220 }
+.compact-thumb img{ width:100%; height:100%; object-fit:cover; display:block }
+
+/* favorite visuals: friendly & clear */
+.compact-fav, .card-fav{
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,0.04);
+  width:44px; height:44px; min-width:44px;
+  display:inline-flex; align-items:center; justify-content:center;
+  transition: transform 160ms ease, background 160ms ease;
+}
+.compact-fav[aria-pressed="true"] i, .card-fav[aria-pressed="true"] i{ color:#34d399 }
+
+/* hero section: cinematic treatment */
+#hero-section{
+  position:relative;
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow: 0 28px 80px rgba(2,6,23,0.7);
+  background-size:cover;background-position:center;
+  min-height:36vh;
+}
+.hero-gradient-bottom{ background: linear-gradient(to top, rgba(2,6,23,0.96) 0%, transparent 70%); }
+.hero-gradient-side{ background: linear-gradient(to right, rgba(2,6,23,0.86) 0%, transparent 70%); }
+
+/* loader polish */
+#global-loader{
+  display:flex; align-items:center; justify-content:center;
+  position:fixed; inset:0; z-index:240; padding:18px;
+  background: linear-gradient(180deg, rgba(2,6,23,0.94), rgba(2,6,23,0.98));
+}
+.loader-card{
+  width:min(96%,420px);
+  background: linear-gradient(180deg, rgba(10,12,20,0.96), rgba(6,8,14,0.92));
+  border:1px solid rgba(255,255,255,0.04);
+  padding:18px; border-radius:14px;
+  box-shadow: 0 28px 70px rgba(2,6,23,0.72);
+}
+
+/* progress visual refined */
+.progress-track{ height:10px; background: rgba(255,255,255,0.03); border-radius:999px; overflow:hidden }
+.progress-fill{ height:100%; background: linear-gradient(90deg,#3b82f6,#8b5cf6); width:0; transition: width 420ms cubic-bezier(.22,.9,.35,1) }
+
+/* game-layer toolbar polish */
+#game-layer > .glass-nav{
+  /* Modernized in-game top bar: frosted glass, rounded corners, subtle glow and improved spacing */
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  height: 64px;
+  background: linear-gradient(180deg, rgba(8,10,16,0.86), rgba(6,8,14,0.72));
+  backdrop-filter: blur(10px) saturate(120%);
+  -webkit-backdrop-filter: blur(10px) saturate(120%);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  box-shadow: 0 12px 40px rgba(2,6,23,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+  border-bottom-left-radius: 14px;
+  border-bottom-right-radius: 14px;
+  transition: transform 220ms cubic-bezier(.2,1,.22,1), opacity 180ms ease, box-shadow 220ms ease;
+  z-index: 130;
+}
+
+/* slightly larger, clearer icon containers inside the in-game bar */
+#game-layer > .glass-nav .w-8 {
+  width:44px;
+  height:44px;
+  min-width:44px;
+  border-radius:10px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid rgba(255,255,255,0.04);
+  box-shadow: 0 8px 22px rgba(2,6,23,0.5);
+}
+
+/* polish buttons inside game toolbar for consistent elevated look */
+#game-layer > .glass-nav button {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.008));
+  border: 1px solid rgba(255,255,255,0.05);
+  color: #fff;
+  padding: 8px;
+  border-radius: 10px;
+  transition: transform 160ms cubic-bezier(.2,1,.22,1), box-shadow 160ms ease, background 160ms ease;
+}
+#game-layer > .glass-nav button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 36px rgba(2,6,23,0.5);
+  background: linear-gradient(90deg, rgba(124,58,237,0.12), rgba(6,182,212,0.06));
+}
+
+/* ensure toolbar scales smoothly when hiding/showing */
+#game-layer > .glass-nav.hidden {
+  opacity: 0;
+  transform: translateY(-6px) scale(0.995);
+  pointer-events: none;
+}
+
+/* compact labels are hidden when space is limited but still accessible to screen readers */
+#game-layer > .glass-nav .font-medium, #game-layer > .glass-nav .text-sm {
+  transition: opacity 180ms ease, transform 160ms ease;
+}
+
+/* subtle hover focus for accessibility */
+#game-layer > .glass-nav button:focus {
+  outline: 3px solid rgba(99,102,241,0.12);
+  outline-offset: 3px;
+}
+#game-layer .w-8{ width:40px;height:40px }
+
+/* When a mobile device is rotated to landscape, make the game toolbar vertical on the left.
+   This moves the toolbar from the top into a left-side vertical bar and shifts the iframe content
+   to the right so the game remains fully visible and touch targets stay reachable. */
+@media (max-width: 640px) and (orientation: landscape) {
+  /* vertical left toolbar */
+  #game-layer > .glass-nav {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 64px;                 /* compact vertical width for touch */
+    height: 100%;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    display: flex;
+    flex-direction: column;      /* stack controls vertically */
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    border-right: 1px solid rgba(255,255,255,0.03);
+    border-bottom: 0;
+    background: linear-gradient(180deg, rgba(6,8,14,0.96), rgba(3,5,11,0.94));
+    z-index: 120;
+  }
+
+  /* make toolbar buttons vertically aligned and larger for thumb reach */
+  #game-layer > .glass-nav .w-8,
+  #game-layer > .glass-nav button {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    margin: 8px 0;
+    border-radius: 10px;
+  }
+
+  /* hide textual labels in the compact vertical layout to save space */
+  #game-layer > .glass-nav span,
+  #game-layer > .glass-nav .font-medium,
+  #game-layer > .glass-nav .text-sm {
+    display: none;
+  }
+
+  /* shift iframe wrapper to the right so content does not sit under the vertical bar */
+  #game-frame-wrapper {
+    margin-left: 64px !important;
+    /* ensure wrapper still fills remaining area */
+    width: calc(100% - 64px) !important;
+    height: 100% !important;
+  }
+
+  /* ensure the iframe itself respects the shifted area */
+  #game-frame {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  /* adjust loader & overlays to account for left bar */
+  #global-loader .loader-card, #game-layer #loader {
+    margin-left: 64px;
+  }
+
+  /* when in this state, hide the top navbar inside the game layer to avoid double controls */
+  #game-layer > .glass-nav + * {
+    /* no-op placeholder: ensures layout when other adjacent elements exist */
+  }
+}
+
+/* volume control compact, clear */
+#game-volume-control{ min-width:140px; display:flex; align-items:center; gap:10px; padding:6px 8px; border-radius:999px; background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid rgba(255,255,255,0.03) }
+#volume-slider{ height:8px; border-radius:999px; background: linear-gradient(90deg,#4f46e5 0%,#ec4899 100%); -webkit-appearance:none }
+#volume-slider::-webkit-slider-thumb{ width:18px;height:18px;border-radius:999px;background:#fff;box-shadow:0 8px 22px rgba(0,0,0,0.45); -webkit-appearance:none }
+
+/* Compact mobile volume control for tighter UI */
+@media (max-width: 640px) {
+    /* Hide the volume control in the in-game top bar on mobile to maximize space */
+    #game-volume-control {
+        display: none !important;
+        min-width: 0;
+        padding: 0;
+        margin: 0;
+        width: 0;
+        height: 0;
+        overflow: hidden;
+        visibility: hidden;
+    }
+
+    /* Slimmer track so it reads lighter on small screens (kept for other contexts if needed) */
+    #volume-slider {
+        height: 4px;
+        background: linear-gradient(90deg, #4f46e5 0%, #ec4899 100%);
+    }
+
+    /* Smaller thumb for compactness and unobtrusive look */
+    #volume-slider::-webkit-slider-thumb {
+        width: 12px;
+        height: 12px;
+        border-radius: 999px;
+        background: white;
+        box-shadow: 0 4px 12px rgba(17,24,39,0.5);
+        -webkit-appearance: none;
+    }
+    #volume-slider::-moz-range-thumb {
+        width: 12px;
+        height: 12px;
+        border-radius: 999px;
+        background: white;
+        border: none;
+        box-shadow: 0 4px 12px rgba(17,24,39,0.5);
+    }
+
+    /* Slightly smaller volume toggle button (kept in case used elsewhere) */
+    #btn-volume-toggle {
+        width: 36px;
+        height: 36px;
+        padding: 6px;
+        border-radius: 10px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Ensure icons remain legible */
+    #btn-volume-toggle i, #volume-icon { font-size: 14px; }
+}
+
+/* Favorites Library — cleaner, more consistent grid / list layout */
+#favorites-content { padding: 8px 0 28px; box-sizing: border-box; }
+.favorites-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
+  padding: 6px;
+  width: 100%;
+  box-sizing: border-box;
+  align-items: start;
+}
+
+/* Card used in favorites: clearer hierarchy, consistent sizing, better touch targets */
+.favorites-grid .game-card,
+.favorites-grid-card {
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, rgba(255,255,255,0.012), rgba(255,255,255,0.006));
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 12px 36px rgba(2,6,23,0.45);
+  transition: transform 220ms cubic-bezier(.22,.9,.35,1), box-shadow 220ms ease, opacity 180ms ease;
+  min-height: 160px;
+  will-change: transform, opacity;
+}
+
+/* Card content layout: thumbnail + meta + actions */
+.favorites-grid .game-card img,
+.favorites-grid-card img {
+  width: 100%;
+  height: 130px;
+  object-fit: cover;
+  display: block;
+  border-bottom: 1px solid rgba(255,255,255,0.02);
+}
+
+.fav-card-body {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1 1 auto;
+  min-height: 64px;
+}
+
+/* Title & desc */
+.fav-card-title {
+  font-weight: 800;
+  color: #fff;
+  font-size: 1rem;
+  line-height: 1.15;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.fav-card-desc {
+  color: #cbd5e1;
+  font-size: 0.95rem;
+  line-height: 1.2;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Actions area */
+.fav-card-controls {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+  align-items: center;
+  justify-content: space-between;
+}
+.fav-play-btn {
+  background: linear-gradient(90deg,#fff,#f2f2f2);
+  color: #061024;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-weight: 800;
+  box-shadow: 0 8px 20px rgba(17,24,39,0.32);
+  border: 0;
+}
+.fav-remove-btn {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.06);
+  color: #fca5a5;
+  padding: 9px 10px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Hover & focus feedback */
+.favorites-grid .game-card:hover,
+.favorites-grid-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 22px 48px rgba(2,6,23,0.6);
+  border-color: rgba(124,58,237,0.22);
+}
+
+/* Empty state improved */
+.fav-empty {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  padding:28px;
+  border-radius:12px;
+  border:1px dashed rgba(255,255,255,0.04);
+  background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+  color: #9aa3b3;
+  text-align:center;
+}
+
+/* Responsive: switch to single-column stacked flow on small screens for better scroll UX */
+@media (max-width: 640px) {
+  .favorites-grid {
+    display: block;
+    padding: 8px;
+  }
+  .favorites-grid .game-card,
+  .favorites-grid-card {
+    width: min(94%, 720px);
+    margin: 10px auto;
+    flex-direction: column;
+  }
+  .fav-card-body { padding: 10px; }
+  .fav-card-title { font-size: 1.03rem; white-space: normal; -webkit-line-clamp: 2; }
+  .fav-card-desc { font-size: 0.95rem; -webkit-line-clamp: 3; }
+  .fav-play-btn, .fav-remove-btn { min-height: 44px; padding: 10px 12px; }
+  #favorites-content { padding-bottom: 40px; }
+}
+
+/* Accessibility: focus states */
+.favorites-grid .game-card:focus-within,
+.favorites-grid .game-card:focus {
+  outline: 3px solid rgba(99,102,241,0.12);
+  outline-offset: 4px;
+}
+
+/* toasts */
+#toast-container{
+  position: fixed;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 250;
+  pointer-events: none;
+}
+
+/* Mobile: show toasts at the top, immediately below the top bar (respect safe-area inset) */
+@media (max-width: 640px) {
+  #toast-container{
+    top: calc(env(safe-area-inset-top, 12px) + 64px); /* place below the top navbar */
+    left: 8px;
+    right: 8px;
+    bottom: auto;
+    transform: none;
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+    z-index: 13005; /* above top bar but below in-game overlays if needed */
+    gap: 8px;
+  }
+
+  /* Make individual toasts stretch nicely across the top area on mobile */
+  #toast-container .toast {
+    width: auto;
+    max-width: calc(100% - 16px);
+    margin: 0 auto;
+    pointer-events: auto;
+  }
+}
+.toast{ min-width:220px; max-width:360px; background: linear-gradient(180deg, rgba(10,12,18,0.96), rgba(6,8,14,0.94)); padding:10px 14px; border-radius:999px; display:flex; gap:8px; align-items:center; color:var(--muted); box-shadow: 0 14px 36px rgba(2,6,23,0.6); border:1px solid rgba(148,163,184,0.06) }
+.toast-show{ opacity:1; transform:translateY(0) }
+
+/* compact helpers */
+.enter{ animation: cardEnter 420ms cubic-bezier(.22,.9,.35,1) both }
+.exit{ animation: cardExit 320ms cubic-bezier(.4,0,.2,1) both }
+@keyframes cardEnter{ 0%{ opacity:0; transform: translateY(12px) scale(0.995)} 100%{ opacity:1; transform: translateY(0) scale(1)} }
+@keyframes cardExit{ 0%{ opacity:1; transform: translateY(0)} 100%{ opacity:0; transform: translateY(12px) scale(0.98)} }
+
+/* responsive polish */
+@media(max-width:640px){
+  .game-card{ min-width:56vw; max-width:76vw; aspect-ratio:16/9; border-radius:12px }
+  .tab-chip{ width:2.5rem; height:2.5rem }
+  .loader-card{ width:94% }
+  .favorites-grid{ grid-template-columns: 1fr; max-height: calc(100vh - 180px); overflow:auto }
+}
+
+/* accessibility & reduced motion */
+@media(prefers-reduced-motion:reduce){
+  .animate-fade-in, .enter, .exit, .game-card, .hero-play, .hero-fav{ animation:none !important; transition:none !important }
+}
+
+/* small touch & hit-area improvements */
+button, .row-nav-button, .tab-chip, .tab-btn{ -webkit-tap-highlight-color:transparent; touch-action:manipulation }
+
+/* final vignette */
+body::after{
+  content:""; position:fixed; inset:0; pointer-events:none;
+  box-shadow: inset 0 120px 120px rgba(0,0,0,0.36), inset 0 -120px 120px rgba(0,0,0,0.28);
+}
+
+/* iOS 100vh fix & fullscreen visual fallback */
+.fullscreen-container {
+  /* uses --vh set by JS to avoid iOS 100vh issues */
+  height: calc(var(--vh, 1vh) * 100);
+  width: 100%;
+  inset: 0;
+  position: fixed;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Visual "forced fullscreen" fallback for iOS Safari when requestFullscreen is unavailable */
+.forced-fullscreen body,
+.forced-fullscreen #root,
+.forced-fullscreen .fullscreen-container,
+.forced-fullscreen #game-layer {
+  height: calc(var(--vh, 1vh) * 100) !important;
+  position: fixed !important;
+  inset: 0 !important;
+  overflow: hidden !important;
+}
+
+/* Small iOS banner styling (non-blocking, minimal) */
+.ios-fullscreen-banner {
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  bottom: 14px;
+  z-index: 99999;
+  display: flex;
+  justify-content: center;
+  pointer-events: auto;
+}
+.ios-fullscreen-banner-card {
+  background: linear-gradient(180deg, rgba(15,23,42,0.95), rgba(6,8,16,0.96));
+  border: 1px solid rgba(255,255,255,0.06);
+  color: #e6eef8;
+  padding: 10px 12px;
+  border-radius: 12px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  box-shadow: 0 10px 28px rgba(2,6,23,0.6);
+  font-size: 13px;
+  max-width: 720px;
+  width: 100%;
+}
+.ios-fullscreen-banner-text { flex: 1 1 auto; color: #cbd5e1; font-size: 13px; }
+.ios-fullscreen-banner .ios-btn { min-width: 92px; padding: 8px 10px; border-radius: 10px; font-weight:700; border:0; cursor:pointer; }
+.ios-fullscreen-banner .ios-btn-primary { background: linear-gradient(90deg,#7c3aed,#06b6d4); color:#fff; }
+.ios-fullscreen-banner .ios-btn-secondary { background: transparent; border:1px solid rgba(255,255,255,0.06); color:#e6eef8; }
+
+/* keep banner hidden by default; shown via 'hidden' class toggling in JS for iOS only */
+
+html, body {
+    height: 100%;
+}
+
+body {
+    background-color: var(--bg-deep);
+    background-image:
+        radial-gradient(circle at 8% 18%, rgba(59, 130, 246, 0.06) 0%, transparent 20%),
+        radial-gradient(circle at 92% 82%, rgba(139, 92, 246, 0.06) 0%, transparent 22%),
+        linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    background-attachment: fixed;
+    color: white;
+    font-family: 'Outfit', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+@media (max-width: 640px) {
+    body {
+        background-image:
+            radial-gradient(circle at 8% 18%, rgba(59, 130, 246, 0.06) 0%, transparent 24%),
+            linear-gradient(180deg, rgba(15,23,42,0.9), rgba(2,6,23,1));
+        background-attachment: scroll;
+    }
+}
+
+/* Improve touch behavior to avoid double-tap zoom and accidental gestures */
+html, body, #app-container, #login-screen, .glass-panel, .glass-nav, #game-layer, #details-modal {
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+/* Allow selects for inputs explicitly (restore where needed) */
+input, textarea, select, button {
+    -webkit-user-select: text;
+    user-select: text;
+    touch-action: manipulation;
+}
+
+/* Glassmorphism */
+.glass-panel {
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+}
+
+.glass-nav {
+    background: linear-gradient(180deg, rgba(4,8,20,0.96), rgba(2,6,23,0.9));
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(124,58,237,0.06);
+    box-shadow: 0 6px 18px rgba(2,6,23,0.6);
+}
+
+/* Scrollbar styling for horizontal rows */
+.hide-scroll {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+.hide-scroll::-webkit-scrollbar {
+    height: 4px;
+}
+
+.hide-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.hide-scroll::-webkit-scrollbar-thumb {
+    background: rgba(148, 163, 184, 0.5);
+    border-radius: 999px;
+}
+
+/* Scroll arrow improvements: larger touch targets, visible on touch, disabled state */
+.row-nav-button {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.06);
+    color: #e6eef8;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 18px rgba(2,6,23,0.7);
+    border: 1px solid rgba(255,255,255,0.04);
+    transition: transform 160ms ease, background-color 160ms ease, opacity 160ms ease;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+.row-nav-button:hover {
+    transform: translateY(-2px);
+    background: rgba(255,255,255,0.09);
+}
+.row-nav-button:active { transform: translateY(0) scale(0.98); }
+.row-nav-button[aria-disabled="true"] {
+    opacity: 0.42;
+    pointer-events: none;
+    transform: none;
+    background: rgba(255,255,255,0.02);
+}
+/* Slight overlay container to keep arrows aligned with row for small screens */
+.row-controls {
+    display:flex;
+    gap:8px;
+    align-items:center;
+}
+/* Make chevrons slightly bigger */
+.row-nav-button i { font-size: 0.95rem; }
+/* Ensure scrollable rows have some right padding so last card isn't clipped under arrows */
+[id$="-container"] {
+    padding-inline-end: 12px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px) scale(0.995); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Card enter/exit animations for smooth appearance/disappearance */
+@keyframes cardEnter {
+    0% { opacity: 0; transform: translateY(10px) scale(0.995); }
+    60% { opacity: 1; transform: translateY(-2px) scale(1.01); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes cardExit {
+    0% { opacity: 1; transform: translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateY(12px) scale(0.98); }
+}
+
+/* utility classes */
+.enter {
+    animation: cardEnter 380ms cubic-bezier(.22,.9,.35,1) both;
+}
+.exit {
+    animation: cardExit 280ms cubic-bezier(.4,0,.2,1) both;
+}
+
+/* ensure compact-card and game-card animate with the new classes */
+.compact-card.enter, .game-card.enter {
+    will-change: transform, opacity;
+}
+.compact-card.exit, .game-card.exit {
+    will-change: transform, opacity;
+}
+
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.45s cubic-bezier(.22,.9,.35,1) both;
+}
+
+.animate-float {
+    animation: float 6s ease-in-out infinite;
+}
+
+/* Loader */
+.loader {
+    border-radius: 999px;
+    border-style: solid;
+    border-color: rgba(15, 23, 42, 0.7);
+    border-top-color: #7c3aed;
+    border-left-color: #3b82f6;
+    animation: spinner 0.9s linear infinite;
+}
+
+@keyframes spinner {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ===== Global Enhanced Loader Styles (new) ===== */
+#global-loader {
+    transition: opacity 260ms ease, visibility 200ms ease;
+    display: flex;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: none;
+    pointer-events: auto;
+
+    /* Ensure loader truly covers full viewport and sits above everything */
+    position: fixed;
+    inset: 0;
+    align-items: center;
+    justify-content: center;
+    z-index: 240 !important; /* raised above game-layer/iframe */
+    background: linear-gradient(180deg, rgba(2,6,23,0.92), rgba(2,6,23,0.98));
+    padding: 18px;
+}
+#global-loader.hidden { visibility: hidden; opacity: 0; pointer-events: none; }
+.loader-card {
+    box-shadow: 0 20px 60px rgba(2,6,23,0.7), 0 6px 18px rgba(99,102,241,0.06);
+    width: min(96%, 420px);
+    padding: 18px;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+    justify-content: center;
+}
+
+/* Loader content row */
+.loader-card .loader-top {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+.loader-card .loader-top .glow-ring {
+    width: 56px;
+    height: 56px;
+    flex: 0 0 auto;
+}
+.loader-card .loader-texts {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+#global-loader-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #fff;
+}
+#global-loader-sub {
+    color: #d1d5db;
+    font-size: 0.92rem;
+    margin-top: 2px;
+}
+
+/* Make progress bar larger/tappable on mobile */
+.progress-track {
+    height: 8px;
+    border-radius: 999px;
+    overflow: hidden;
+}
+.progress-fill {
+    height: 100%;
+    border-radius: 999px;
+}
+
+/* hint smaller and centered */
+#global-loader-hint {
+    color: #9ca3af;
+    font-size: 0.82rem;
+    text-align: center;
+}
+
+/* ensure card scales comfortably on very small phones */
+@media (max-width: 420px) {
+    .loader-card { width: 94%; padding: 14px; gap: 8px; }
+    .glow-ring { width: 46px; height: 46px; }
+    #global-loader-title { font-size: 1rem; }
+    #global-loader-sub { font-size: 0.9rem; }
+    .progress-track { height: 6px; }
+}
+
+/* accessible focus outline for any interactive controls shown in loader */
+.loader-card button:focus {
+    outline: 3px solid rgba(99,102,241,0.14);
+    outline-offset: 2px;
+}
+
+/* decorative animated ring */
+.glow-ring {
+    width: 56px;
+    height: 56px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, rgba(59,130,246,0.95), rgba(124,58,237,0.95));
+    box-shadow: 0 12px 36px rgba(99,102,241,0.18), 0 4px 12px rgba(0,0,0,0.6);
+    position: relative;
+    overflow: hidden;
+}
+.glow-ring::after {
+    content: "";
+    position: absolute;
+    inset: 6px;
+    border-radius: 999px;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.18), transparent 30%);
+    mix-blend-mode: overlay;
+    opacity: 0.95;
+    animation: ringPulse 1600ms ease-in-out infinite;
+}
+@keyframes ringPulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.06); opacity: 0.9; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* progress bar */
+.progress-track { background: rgba(255,255,255,0.03); }
+.progress-fill {
+    transition: width 420ms cubic-bezier(.22,.9,.35,1);
+    width: 0%;
+}
+
+/* adaptive sizing */
+@media (max-width: 640px) {
+    .loader-card { padding: 18px; width: 94%; }
+    .glow-ring { width: 46px; height: 46px; }
+    #global-loader-title { font-size: 1rem; }
+}
+
+/* ensure the game iframe spans the entire game-layer and sits visually beneath the in-game toolbar */
+#game-frame {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 5 !important;        /* keep below toolbar (toolbar uses z-index:120+) */
+    pointer-events: auto !important;
+    transform: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+}
+
+/* make the frame wrapper allow the iframe to flow underneath the toolbar (toolbar overlays it) */
+#game-frame-wrapper {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    display: block !important;
+    overflow: hidden !important;
+    z-index: 10 !important; /* keep wrapper below toolbar but above page background */
+}
+
+/* ensure in-layer toolbar remains on top */
+#game-layer > .glass-nav {
+    position: relative !important;
+    z-index: 120 !important;
+}
+
+/* ensure loader sits above iframe and toolbar as needed */
+#global-loader { z-index: 240 !important; }
+
+/* ensure the loader card is centered on very small screens */
+@media (max-width: 640px) {
+    .loader-card { padding: 18px; width: 94%; }
+    .glow-ring { width: 46px; height: 46px; }
+    #global-loader-title { font-size: 1rem; }
+}
+
+/* Game overlay enter/exit animations */
+@keyframes gameEnter {
+    0% { opacity: 0; transform: translateY(8vh) scale(0.985); filter: blur(6px); }
+    60% { opacity: 1; transform: translateY(-2vh) scale(1.01); filter: blur(0); }
+    100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+@keyframes gameExit {
+    0% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+    100% { opacity: 0; transform: translateY(10vh) scale(0.98); filter: blur(6px); }
+}
+
+.game-enter {
+    animation: gameEnter 420ms cubic-bezier(.22,.9,.35,1) both;
+}
+.game-exit {
+    animation: gameExit 320ms cubic-bezier(.4,0,.2,1) both;
+}
+
+/* Ensure game-layer transition baseline */
+#game-layer {
+    will-change: transform, opacity, filter;
+    transition: none;
+}
+
+/* Modal enter/exit animations */
+@keyframes modalEnter {
+    0% { opacity: 0; transform: translateY(20px) scale(0.995); filter: blur(6px); }
+    60% { opacity: 1; transform: translateY(-6px) scale(1.01); filter: blur(0); }
+    100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+@keyframes modalExit {
+    0% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+    100% { opacity: 0; transform: translateY(16px) scale(0.995); filter: blur(6px); }
+}
+
+/* modern modal card: compact, glassy, and centered with strong elevation and readable content */
+#modal-card {
+    will-change: transform, opacity, filter;
+    transition:
+      transform 360ms cubic-bezier(.22,.9,.35,1),
+      opacity 260ms cubic-bezier(.22,.9,.35,1),
+      box-shadow 260ms ease;
+    width: min(96%, 980px);
+    max-width: 980px;
+    background: linear-gradient(180deg, rgba(15,23,42,0.92), rgba(9,12,18,0.86));
+    border-radius: 18px;
+    padding: 0; /* keep inner layout intact; card internal sections manage padding */
+    box-shadow: 0 30px 80px rgba(2,6,23,0.72), 0 6px 20px rgba(124,58,237,0.06);
+    border: 1px solid rgba(255,255,255,0.04);
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: stretch;
+    /* Default to visible state to avoid flash/hide when JS toggles classes.
+       JS will still manage entrance/exit by applying translate-y-full / modal-enter / modal-exit as needed. */
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* ensure modal always becomes visible when backdrop is shown */
+#details-modal.modal-backdrop-show #modal-card,
+#details-modal.flex #modal-card {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* mobile start state helper (JS toggles this) */
+#modal-card.translate-y-full {
+    transform: translateY(100%) scale(0.995);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Desktop/enter animation: keep clear animation names and states */
+.modal-enter {
+    animation: modalEnter 360ms cubic-bezier(.22,.9,.35,1) both;
+}
+.modal-exit {
+    animation: modalExit 260ms cubic-bezier(.4,0,.2,1) both;
+}
+
+/* When explicitly hidden by JS (modal-exit or translate-y-full), ensure pointer-events are disabled to avoid accidental clicks */
+#modal-card.modal-exit,
+#modal-card.translate-y-full,
+#details-modal.modal-backdrop-closing #modal-card {
+    pointer-events: none;
+}
+
+/* Slight visual refresh: softer border + inner glow and spacing improvements */
+#modal-card .p-5, #modal-card .p-8, #modal-card .p-3 {
+    padding: 20px 22px !important;
+}
+#modal-card .relative.h-48,
+#modal-card .relative.h-48.sm\:h-\[300px\] {
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+
+/* Improve the close button visibility with a subtle glass halo */
+#modal-close {
+    box-shadow: 0 8px 18px rgba(0,0,0,0.5);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.06);
+}
+
+/* Make banner area crisper and avoid scale transform on load */
+#modal-card .relative.h-48 img#modal-banner {
+    transition: opacity 260ms ease, filter 260ms ease;
+    will-change: opacity;
+    opacity: 1;
+}
+
+/* small-screen adjustments: smoother slide up/down and keep visible */
+@media (max-width: 640px) {
+    #modal-card {
+        width: calc(100% - 20px);
+        max-width: calc(100% - 20px);
+        border-radius: 14px 14px 8px 8px;
+        transform: translateY(0) scale(1);
+        opacity: 1;
+    }
+    #modal-card.translate-y-full {
+        transform: translateY(100%) scale(0.995);
+        opacity: 0;
+        pointer-events: none;
+    }
+}
+
+/* Ensure backdrop show/hide also controls display cleanly to avoid a momentary invisible card */
+#details-modal.modal-backdrop-show {
+    display: flex;
+    opacity: 1;
+    animation: backdropFadeIn 300ms cubic-bezier(.22,.9,.35,1) both;
+}
+#details-modal.modal-backdrop-closing {
+    animation: backdropFadeOut 220ms cubic-bezier(.4,0,.2,1) both;
+}
+
+/* Backdrop fade animations for details modal */
+@keyframes backdropFadeIn {
+    from { opacity: 0; transform: none; }
+    to { opacity: 1; transform: none; }
+}
+@keyframes backdropFadeOut {
+    from { opacity: 1; transform: none; }
+    to { opacity: 0; transform: none; }
+}
+
+/* details modal backdrop: modern, subtle blur with soft gradient and focus trap visuals */
+#details-modal {
+    transition: opacity 300ms cubic-bezier(.22,.9,.35,1), backdrop-filter 300ms ease;
+    opacity: 0;
+    background: linear-gradient(180deg, rgba(2,6,23,0.85), rgba(2,6,23,0.88));
+    -webkit-backdrop-filter: blur(8px) saturate(120%);
+    backdrop-filter: blur(8px) saturate(120%);
+    display: none;
+}
+#details-modal.modal-backdrop-show {
+    display: flex;
+    opacity: 1;
+    animation: backdropFadeIn 300ms cubic-bezier(.22,.9,.35,1) both;
+}
+/* short fade + downward ease on close for pleasing exit */
+#details-modal.modal-backdrop-closing {
+    animation: backdropFadeOut 220ms cubic-bezier(.4,0,.2,1) both;
+}
+
+/* classes to trigger animations */
+.modal-enter {
+    animation: modalEnter 360ms cubic-bezier(.22,.9,.35,1) both;
+}
+.modal-exit {
+    animation: modalExit 260ms cubic-bezier(.4,0,.2,1) both;
+}
+
+/* --- Backdrop & page crossfade polish --- */
+#details-modal {
+    opacity: 0;
+    transition: opacity 320ms cubic-bezier(.22,.9,.35,1), backdrop-filter 320ms ease;
+}
+#details-modal.flex {
+    opacity: 1;
+}
+
+/* Page crossfade used for tab switches */
+.page-fade {
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 320ms cubic-bezier(.22,.9,.35,1), transform 320ms cubic-bezier(.22,.9,.35,1);
+    will-change: opacity, transform;
+}
+.page-fade.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* slight elevation animation for hero buttons */
+.hero-play, .hero-fav {
+    transition: transform 200ms cubic-bezier(.22,.9,.35,1), box-shadow 200ms ease, opacity 200ms ease;
+}
+
+/* improve touch feedback on tab chips */
+.tab-chip, .tab-btn {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+/* Tabs */
+.tab-btn {
+    position: relative;
+    padding: 0.25rem 0.9rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: rgb(148, 163, 184);
+    border-radius: 999px;
+    border: 0;
+    background: transparent;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    transition:
+        color 0.18s ease,
+        background-color 0.18s ease,
+        box-shadow 0.18s ease,
+        transform 0.12s ease;
+    cursor: pointer;
+}
+
+@media (min-width: 640px) {
+    .tab-btn {
+        padding-inline: 0.9rem;
+        font-size: 0.8rem;
+    }
+}
+
+.tab-btn i {
+    font-size: 0.75rem;
+}
+
+.tab-btn:hover {
+    color: #e5e7eb;
+    background-color: rgba(15,23,42,0.85);
+}
+
+.tab-btn-active {
+    color: #fff;
+    background: linear-gradient(90deg, rgba(99,102,241,0.95), rgba(124,58,237,0.95));
+    box-shadow:
+        0 6px 18px rgba(99,102,241,0.12),
+        0 10px 30px rgba(12,10,30,0.65);
+    transform: translateY(-1px);
+}
+
+/* Compact chips for mobile tabs */
+.tab-chip {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 999px;
+    border: 1px solid rgba(148,163,184,0.5);
+    background: rgba(15,23,42,0.9);
+    color: rgb(148,163,184);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    box-shadow: 0 2px 6px rgba(15,23,42,0.8);
+    transition:
+        background-color 0.18s ease,
+        color 0.18s ease,
+        box-shadow 0.18s ease,
+        transform 0.1s ease;
+}
+
+.tab-chip i {
+    font-size: 0.75rem;
+}
+
+.tab-chip:hover {
+    background-color: rgba(15,23,42,1);
+    color: #e5e7eb;
+}
+
+/* make tab-chip follow same active visuals as tab-btn */
+.tab-chip.tab-btn-active {
+    background: radial-gradient(circle at 0% 0%, rgba(59,130,246,0.85), rgba(109,40,217,0.95));
+    color: #f9fafb;
+    border-color: transparent;
+    box-shadow: 0 6px 14px rgba(17,24,39,0.9);
+}
+
+/* Section title */
+.section-title {
+    font-size: 1.4rem;
+    line-height: 1.4;
+    font-weight: 700;
+    margin-bottom: 1.25rem;
+    margin-top: 0.75rem;
+    color: #f3f4f6;
+    text-shadow: 0 10px 20px rgba(2,6,23,0.6);
+    border-left-width: 4px;
+    padding-left: 0.75rem;
+}
+
+/* Hero gradients */
+.hero-gradient-bottom {
+    background: linear-gradient(to top, rgba(2,6,23,0.98) 0%, transparent 70%);
+}
+
+.hero-gradient-side {
+    background: linear-gradient(to right, rgba(2, 6, 23, 0.88) 0%, transparent 70%);
+}
+
+@media (max-width: 640px) {
+    .hero-gradient-side {
+        background: linear-gradient(to right, rgba(2, 6, 23, 0.7) 0%, transparent 100%);
+    }
+    .hero-gradient-bottom {
+        background: linear-gradient(to top, var(--bg-deep) 0%, transparent 70%);
+    }
+}
+
+/* Game cards */
+.game-card {
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+                border-color 0.25s ease;
+    flex: 0 0 auto; /* ensure cards don't shrink inside horizontal scrollers */
+    min-width: 220px; /* sensible baseline for cards */
+    max-width: 320px;
+    border-radius: 16px;
+    overflow: visible;
+}
+
+/* make mobile cards larger and more readable */
+@media (max-width: 640px) {
+    .game-card {
+        min-width: calc(56vw); /* slightly larger for swipeable cards */
+        max-width: calc(76vw);
+        height: auto;
+        aspect-ratio: 16/9;
+    }
+
+    /* improve row padding so last card isn't visually clipped under arrows */
+    .row-controls {
+        padding-right: 8px;
+    }
+
+    /* make tab chips slightly larger and clearer touch targets */
+    .tab-chip {
+        width: 2.5rem;
+        height: 2.5rem;
+        font-size: 0.85rem;
+    }
+
+    .tab-chip i {
+        font-size: 0.9rem;
+    }
+
+    /* Reduce heavy glass blur on small screens to improve performance */
+    .glass-panel, .glass-nav {
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+    }
+
+    /* Tone down shadow & hover intensity on small screens */
+    .game-card:hover {
+        transform: translateY(-4px) scale(1.01);
+        box-shadow:
+            0 12px 24px -8px rgba(0, 0, 0, 0.55);
+    }
+
+    .row-nav-button {
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+        border-radius: 12px;
+    }
+}
+
+/* Respect user's reduced-motion preference and reduce animations on mobile for battery/perf */
+@media (prefers-reduced-motion: reduce), (max-width: 480px) {
+    .animate-fade-in, .animate-float, .hero-play, .hero-fav, .card-play, .card-fav, .game-card, .modal-enter, .modal-exit, .game-enter, .game-exit {
+        animation: none !important;
+        transition: none !important;
+    }
+    .game-card { transition: transform 120ms ease !important; }
+}
+
+/* Lower complexity background on narrow viewports */
+@media (max-width: 420px) {
+    body {
+        background-image:
+            radial-gradient(circle at 8% 18%, rgba(59, 130, 246, 0.06) 0%, transparent 20%),
+            linear-gradient(180deg, rgba(15,23,42,0.96), rgba(2,6,23,1));
+    }
+}
+
+/* Slightly larger touch targets for common controls on mobile */
+@media (max-width: 640px) {
+    .row-nav-button, .card-fav, .card-play {
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+    }
+}
+
+/* ensure grid-mode cards are easier to tap (search results) */
+@media (max-width: 420px) {
+    .game-card {
+        min-width: calc(60vw);
+        max-width: calc(88vw);
+        border-radius: 12px;
+    }
+}
+
+/* --- Devtools protection overlay --- */
+.devtools-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(2,6,23,0.92), rgba(2,6,23,0.96));
+    color: #e6eef8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 18px;
+    z-index: 9999;
+    font-size: 14px;
+    line-height: 1.3;
+    pointer-events: auto;
+}
+.devtools-overlay.hidden { display: none; }
+.devtools-overlay .msg {
+    max-width: 560px;
+    border-radius: 12px;
+    padding: 16px;
+    background: rgba(8,10,16,0.6);
+    border: 1px solid rgba(255,255,255,0.04);
+}
+
+/* Mobile-friendly overrides: hide devtools overlay on phones and increase touch targets */
+@media (max-width: 640px) {
+    .devtools-overlay { display: none !important; pointer-events: none !important; }
+    .row-nav-button {
+        width: 48px;
+        height: 48px;
+        min-width: 48px;
+        border-radius: 12px;
+    }
+    .tab-chip {
+        width: 3rem;
+        height: 3rem;
+        font-size: 1rem;
+    }
+    .loader-card { padding: 16px; width: 96%; }
+}
+
+/* make row scrollers honor momentum and avoid micro-bounces on mobile */
+.hide-scroll {
+    -webkit-overflow-scrolling: touch;
+}
+
+.row-nav-button {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Slightly increase the hit area for fav heart inside cards on mobile */
+.card-fav {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    border-radius: 12px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.game-card:hover {
+    transform: scale(calc(var(--card-hover-scale) + 0.01)) translateY(-6px);
+    box-shadow:
+        0 22px 42px -12px rgba(0, 0, 0, 0.75),
+        0 10px 30px rgba(88,28,135,0.08);
+    border-color: rgba(124,58,237,0.35);
+    z-index: 20;
+}
+
+/* Utility for clamping text when tailwind line-clamp not compiled */
+.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Small breakpoint for very narrow phones */
+@media (max-width: 380px) {
+    .xs\:inline {
+        display: inline;
+    }
+    .xs\:w-52 {
+        width: 13rem;
+    }
+}
+
+/* subtle hover for hero buttons */
+.hero-play:hover { transform: translateY(-2px) scale(1.02); }
+.hero-fav:hover { transform: translateY(-1px) }
+
+/* make app container transitions smoother on load */
+#app-container {
+    transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+/* small polish to card-play and card-fav animations */
+.card-play, .card-fav {
+    transition: transform 0.16s ease, background-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+/* prevent modal banner from scaling on hover/touch per prior bug reports */
+#modal-banner {
+    transition: none !important;
+    transform: none !important;
+    will-change: auto;
+    max-height: 100%;
+    object-fit: cover;
+}
+
+/* ===== Favorites improvements ===== */
+#favorites-content {
+    --gap: 18px;
+    padding-bottom: 40px;
+    min-height: calc(100vh - 120px);
+    overflow: hidden;
+}
+
+.favorites-header {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:12px;
+    padding: 6px 0;
+}
+
+/* New controls row for sorting and view toggles */
+.favorites-controls {
+    display:flex;
+    gap:8px;
+    align-items:center;
+    margin-left:auto;
+}
+
+.favorites-controls .select, .favorites-controls .view-btn {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.05);
+    color: #e6eef8;
+    padding: 8px 10px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+}
+
+.favorites-controls .view-btn {
+    min-width:44px;
+    justify-content:center;
+}
+
+/* Enhanced favorites grid modes */
+.favorites-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
+    align-items: start;
+    padding-bottom: 28px;
+    overflow: auto;
+    max-height: calc(100vh - 260px);
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+}
+
+/* List view: taller cards stacked vertically */
+.favorites-grid.list-view {
+    grid-template-columns: 1fr;
+}
+
+/* Card polish for consistent sizing in grid and list */
+.favorites-grid-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 14px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 36% 64%;
+    gap: 12px;
+    align-items: stretch;
+    padding: 10px;
+    transition: transform 0.28s cubic-bezier(.22,.9,.35,1), box-shadow 0.28s, opacity 260ms ease;
+    will-change: transform, box-shadow, opacity;
+}
+
+/* Slightly different layout for list view entries */
+.favorites-grid.list-view .favorites-grid-card {
+    grid-template-columns: 120px 1fr;
+    align-items: center;
+}
+
+/* Card hover state */
+.favorites-grid-card:hover {
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0 18px 40px rgba(17,24,39,0.7), 0 0 30px rgba(99,102,241,0.08);
+    border-color: rgba(124,58,237,0.35);
+}
+
+.favorites-grid-card img {
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    border-radius:10px;
+    display:block;
+}
+
+/* Smooth entrance for cards */
+.favorites-grid-card[data-animate="in"] {
+    transform: translateY(8px);
+    opacity: 0;
+}
+.favorites-grid-card[data-animate="in"].is-visible {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* Make action buttons clearer and easier to tap */
+.fav-card-controls {
+    display:flex;
+    gap:8px;
+    align-items:center;
+    justify-content:flex-end;
+    margin-top:10px;
+}
+.fav-play-btn {
+    background:linear-gradient(90deg,#fff,#e6e6e6);
+    color:#0b1220;
+    padding:10px 14px;
+    border-radius:12px;
+    font-weight:700;
+    box-shadow: 0 6px 18px rgba(17,24,39,0.5);
+    transition: transform 160ms ease, box-shadow 160ms ease, background-color 140ms ease;
+}
+.fav-remove-btn {
+    background:transparent;
+    border:1px solid rgba(255,255,255,0.06);
+    color:#fca5a5;
+    padding:9px 12px;
+    border-radius:10px;
+    display:inline-flex;
+    gap:8px;
+    align-items:center;
+}
+
+/* Empty state improved */
+.fav-empty {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    padding:28px;
+    border-radius:14px;
+    border:1px dashed rgba(255,255,255,0.04);
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.00));
+    color: #9aa3b3;
+    text-align:center;
+}
+
+.fav-empty i {
+    font-size:36px;
+    color: rgba(124,58,237,0.95);
+    filter: drop-shadow(0 6px 18px rgba(124,58,237,0.2));
+}
+
+/* Navbar favorites count badge */
+.nav-fav-count {
+    min-width:20px;
+    height:20px;
+    padding:0 6px;
+    font-size:11px;
+    border-radius:999px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    background: linear-gradient(90deg,#7c3aed,#06b6d4);
+    color:white;
+    font-weight:700;
+    box-shadow:0 6px 14px rgba(12,10,30,0.5);
+    margin-left:6px;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+    .favorites-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+    .favorites-grid-card {
+        grid-template-columns: 40% 60%;
+    }
+}
+@media (max-width: 420px) {
+    .favorites-grid {
+        display:flex;
+        flex-direction:column;
+        gap:12px;
+        max-height: calc(100vh - 220px);
+    }
+    .favorites-grid.list-view .favorites-grid-card {
+        grid-template-columns: 120px 1fr;
+    }
+}
+
+.favorites-title {
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.fav-badge {
+    background: linear-gradient(90deg,#7c3aed,#06b6d4);
+    color:white;
+    font-weight:700;
+    padding:6px 10px;
+    border-radius:999px;
+    font-size:0.85rem;
+    box-shadow:0 8px 20px rgba(12,10,30,0.6);
+}
+
+.fav-card-body {
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding-right:6px;
+}
+
+.fav-card-title {
+    font-weight:800;
+    font-size:1rem;
+    color:#fff;
+    margin-bottom:6px;
+}
+
+.fav-card-desc {
+    color:#cbd5e1;
+    font-size:0.9rem;
+    line-height:1.15;
+    -webkit-line-clamp:3;
+    display:-webkit-box;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+}
+
+.fav-play-btn:active {
+    transform: scale(0.95);
+}
+
+.fav-remove-btn:active {
+    transform: scale(0.95);
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+    .favorites-grid-card {
+        grid-template-columns: 42% 58%;
+    }
+}
+@media (max-width: 420px) {
+    .favorites-grid {
+        display:flex;
+        flex-direction:column;
+        gap:12px;
+    }
+    .favorites-grid-card {
+        grid-template-columns: 40% 60%;
+        padding:8px;
+    }
+}
+
+/* subtle vignette to focus content */
+body::after {
+    content: "";
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    box-shadow: inset 0 120px 120px rgba(0,0,0,0.35), inset 0 -120px 120px rgba(0,0,0,0.25);
+    border-radius: 0;
+}
+
+/* Hero text polish */
+#hero-section h1 {
+    text-shadow: 0 6px 18px rgba(59,130,246,0.08), 0 4px 12px rgba(139,92,246,0.06);
+    letter-spacing: -0.5px;
+}
+
+/* refine CTA visuals */
+.hero-play {
+    box-shadow: 0 8px 26px rgba(59,130,246,0.08), 0 3px 8px rgba(2,6,23,0.45);
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.hero-fav {
+    box-shadow: inset 0 -6px 16px rgba(0,0,0,0.45);
+    border: 1px solid rgba(255,255,255,0.06);
+}
+
+/* micro-animations for play buttons to make UI feel responsive */
+.card-play, .hero-play {
+    transition: transform 160ms cubic-bezier(.2,1,0.22,1), box-shadow 160ms ease;
+}
+.card-play:active, .hero-play:active {
+    transform: translateY(1px) scale(0.99);
+}
+
+/* small responsive polish: slightly larger grid thumbnails on small devices */
+@media (max-width: 420px) {
+    .game-card {
+        min-width: calc(60vw);
+        max-width: calc(88vw);
+        border-radius: 12px;
+    }
+}
+
+/* --- In-app confirm modal (replaces native confirm/prompt) --- */
+.confirm-modal {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    background: rgba(2,6,23,0.65);
+    -webkit-tap-highlight-color: transparent;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 220ms ease, transform 240ms cubic-bezier(.22,.9,.35,1);
+}
+.confirm-modal.hidden {
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(8px) scale(0.995);
+}
+.confirm-modal:not(.hidden) {
+    pointer-events: auto;
+}
+.confirm-card {
+    width: min(92%, 520px);
+    background: linear-gradient(180deg, rgba(15,23,42,0.96), rgba(6,8,16,0.95));
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: 0 18px 46px rgba(2,6,23,0.6);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.confirm-body {
+    display:flex;
+    gap:12px;
+    align-items:center;
+}
+.confirm-icon {
+    width:52px;
+    height:52px;
+    border-radius:12px;
+    background: linear-gradient(135deg,#f97316,#f43f5e);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    font-size:20px;
+    flex-shrink:0;
+    box-shadow: 0 12px 36px rgba(244,63,94,0.12);
+}
+.confirm-content h3 {
+    margin:0;
+    font-size:1.05rem;
+    font-weight:800;
+    color:#fff;
+}
+.confirm-content p {
+    margin:4px 0 0;
+    color:#cbd5e1;
+    font-size:0.95rem;
+    line-height:1.25;
+}
+.confirm-actions {
+    display:flex;
+    gap:10px;
+    justify-content:flex-end;
+}
+.btn-cancel, .btn-ok {
+    min-width:96px;
+    padding:10px 14px;
+    border-radius:10px;
+    font-weight:700;
+    border:0;
+    cursor:pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+.btn-cancel {
+    background: transparent;
+    color:#e6eef8;
+    border: 1px solid rgba(255,255,255,0.04);
+}
+.btn-ok {
+    background: linear-gradient(90deg,#7c3aed,#06b6d4);
+    color: white;
+    box-shadow: 0 10px 26px rgba(59,130,246,0.08);
+}
+
+/* Confirmation modal animations & improved mobile style */
+.confirm-modal.confirm-show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+.confirm-modal.confirm-hide {
+    opacity: 0;
+    transform: translateY(8px) scale(0.995);
+    pointer-events: none;
+}
+
+/* Animation played when clearing favorites (cascading) */
+.fav-clear-anim {
+    transition: transform 360ms cubic-bezier(.22,.9,.35,1), opacity 320ms ease;
+    opacity: 0 !important;
+    transform: translateY(18px) scale(0.96) rotate(-1deg) !important;
+}
+
+/* Pulse effect on empty state after clear for feedback */
+.fav-empty-pulse {
+    animation: favEmptyPulse 640ms cubic-bezier(.22,.9,.35,1) both;
+}
+@keyframes favEmptyPulse {
+    0% { transform: scale(0.98); opacity: 0.9; }
+    50% { transform: scale(1.02); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Minor polish: smoother favorites header controls on mobile */
+.favorites-controls .view-btn, .favorites-controls .select {
+    transition: transform 160ms ease, box-shadow 180ms ease;
+}
+.favorites-controls .view-btn:active, .favorites-controls .select:active {
+    transform: translateY(1px) scale(0.995);
+}
+
+/* --- Custom Game Rendering (Stumble Guys) --- */
+
+/* Per-row accent variables and view-all button styling */
+.row-section {
+  padding: 8px 6px;
+  border-radius: 12px;
+  margin: 8px 0;
+  transition: background 280ms ease, box-shadow 280ms ease;
+  background: linear-gradient(180deg, rgba(255,255,255,0.00), rgba(255,255,255,0.00));
+}
+.row-controls .row-view-all {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  padding:8px 10px;
+  border-radius:10px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  color: #e6eef8;
+  border: 1px solid rgba(255,255,255,0.04);
+  min-width:44px;
+  height:44px;
+  transition: transform 150ms ease, background 150ms ease;
+}
+.row-controls .row-view-all:hover { transform: translateY(-3px); background: rgba(255,255,255,0.04); }
+
+/* Utility: set per-category accent colors via inline CSS variables at render time */
+:root {
+  --row-accent-default: rgba(124,58,237,0.6);
+}
+
+/* small responsive spacing for row header controls */
+.row-controls { gap:8px; align-items:center; }
+
+/* ensure view-all button is touch friendly on mobile */
+@media (max-width: 640px) {
+  .row-controls .row-view-all { padding:10px 12px; min-width:48px; height:48px; }
+}
+
+/* Wrapper adjustment to support absolute positioning for scaled game */
+.custom-render-stumbleguys-wrapper {
+    display: block !important;
+}
+
+/* Ensure loader sits above scaled iframe and is visible */
+#game-frame-wrapper #loader,
+#game-layer #loader {
+    z-index: 80 !important;
+    pointer-events: none;
+}
+
+/* Iframe scaling and positioning - corrected centering and responsive offsets */
+.custom-render-stumbleguys-frame {
+    width: 100vw !important;
+    height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, calc(-50% - -21vh)) scale(var(--stumble-scale, 1.8));
+    transform-origin: center center;
+    z-index: 5 !important;
+    will-change: transform;
+    overflow: hidden;
+}
+
+/* Ensure the game-layer toolbar sits above scaled iframe */
+#game-layer > .glass-nav,
+#game-layer > .glass-nav * {
+    z-index: 120 !important;
+    position: relative;
+}
+
+/* When fullscreen is active, ensure the same scale var applies to the root of the game layer */
+:root, #game-layer {
+    --stumble-scale: 1.8;
+}
+
+/* --- Toast / Snack bar for inline feedback --- */
+#toast-container {
+    position: fixed;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 250;
+    pointer-events: none;
+}
+
+.toast {
+    min-width: 220px;
+    max-width: 360px;
+    background: rgba(15,23,42,0.95);
+    border-radius: 999px;
+    padding: 9px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #e5e7eb;
+    font-size: 0.85rem;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+    border: 1px solid rgba(148,163,184,0.35);
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+    transition: opacity 200ms ease, transform 200ms cubic-bezier(.22,.9,.35,1);
+    pointer-events: auto;
+}
+
+.toast-show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.toast i {
+    color: #22c55e;
+}
+
+@media (max-width: 480px) {
+    #toast-container {
+        bottom: 8px;
+    }
+    .toast {
+        max-width: 90vw;
+        border-radius: 14px;
+    }
+}
+
+/* ===== Volume control polish ===== */
+#game-volume-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 8px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border: 1px solid rgba(255,255,255,0.03);
+    box-shadow: 0 6px 18px rgba(2,6,23,0.45);
+    min-width: 150px;
+    transition: transform 160ms ease, box-shadow 160ms ease;
+}
+#game-volume-control:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(2,6,23,0.5); }
+
+#btn-volume-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    border: 1px solid rgba(255,255,255,0.06);
+    transition: background 180ms ease, transform 120ms ease;
+}
+#btn-volume-toggle:hover { background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)); transform: translateY(-1px); }
+
+#volume-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 8px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #4f46e5 0%, #ec4899 100%);
+    outline: none;
+    padding: 0;
+    margin: 0;
+}
+#volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 999px;
+    background: white;
+    box-shadow: 0 6px 18px rgba(17,24,39,0.6);
+    border: 2px solid rgba(0,0,0,0.12);
+    transition: transform 120ms ease;
+}
+#volume-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 999px;
+    background: white;
+    border: none;
+    box-shadow: 0 6px 18px rgba(17,24,39,0.6);
+}
+
+/* small responsive shrink */
+@media (max-width: 640px) {
+    #game-volume-control { min-width: 120px; gap:8px; }
+    #volume-slider { height:6px; }
+    #volume-slider::-webkit-slider-thumb { width:16px; height:16px; }
+}
+
+/* ===== Mobile search & favorites polish ===== */
+/* make search results full-bleed cards on mobile, larger touch targets and cleaner info hierarchy */
+#search-results-content .game-card {
+    /* keep search cards comfortable on small screens but cap width to avoid giant cards */
+    min-width: calc(64vw);
+    max-width: 520px;
+    width: min(92vw, 520px);
+    height: auto;
+    aspect-ratio: 16/9;
+    border-radius: 14px;
+    margin: 8px auto;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border: 1px solid rgba(255,255,255,0.04);
+    box-shadow: 0 12px 30px rgba(2,6,23,0.6);
+}
+
+/* grid variant for search (two-column on wider phones) */
+@media (min-width: 420px) and (max-width: 640px) {
+    #search-results-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+    #search-results-grid .game-card { min-width: auto; }
+}
+
+/* card inner tweaks for clearer title/desc layout on mobile */
+#search-results-grid .game-card img,
+#search-results-content .game-card img {
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    object-fit: cover;
+}
+
+/* improve favorites card visibility on mobile: use same card style as home/search for consistency,
+   enable smooth vertical scrolling and remove restrictive max-heights that caused bad UX */
+.favorites-grid {
+    display: block; /* switch to stacked flow on mobile for easier vertical scroll */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    max-height: none;
+    padding-bottom: 28px;
+    gap: 12px;
+}
+
+/* Use the same game-card markup for favorites entries so UI is consistent between Home, Search and Library */
+#favorites-grid .game-card {
+    /* align favorites card sizing with search/home cards and cap width for readability */
+    width: min(92%, 720px);
+    min-width: calc(60vw);
+    max-width: 720px;
+    margin: 10px auto;
+    border-radius: 12px;
+    height: auto;
+    aspect-ratio: 16/9;
+    box-shadow: 0 12px 30px rgba(2,6,23,0.6);
+}
+
+/* increase font sizes slightly for tap readability */
+.favorites-grid-card .fav-card-title { font-size: 1.05rem; }
+.favorites-grid-card .fav-card-desc { font-size: 0.98rem; color: #cbd5e1; }
+
+/* make favorite action buttons larger and easier to tap */
+.fav-play-btn, .fav-remove-btn {
+    min-height: 46px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+}
+
+/* subtle fade-in for mobile search header */
+#search-results-content .section-title {
+    font-size: 1.15rem;
+    padding-left: 0.6rem;
+    margin-bottom: 10px;
+}
+
+/* Empty state centering improvements for mobile */
+#search-results-content p#no-search-results-msg {
+    padding: 18px;
+    font-size: 0.98rem;
+}
+
+/* Improve library scrolling hit area and ensure no vertical bounce when playing games */
+@media (max-width: 640px) {
+    #favorites-grid {
+        display: block;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        max-height: calc(100vh - 140px);
+        padding-bottom: 26px;
+    }
+    /* give the favorites container a comfortable top padding so cards don't butt against nav */
+    #favorites-content { padding-top: 8px; }
+}
+
+/* ===== Prevent page scrolling while a game is active and maximize viewport (Cloud Gaming Improvement) =====
+   Add a class to documentElement to lock background scroll and touch gestures, while allowing the game-layer itself to remain interactive.
+   Extended to also lock the iframe wrapper, inner embed wrappers and bottom-cut overlays so embedded iframes or injected bars
+   cannot create a page-level scrollbar on desktop or mobile.
+*/
+.no-game-scroll,
+.no-game-scroll body,
+.no-game-scroll #app-container,
+.no-game-scroll #home-content,
+.no-game-scroll #favorites-content,
+.no-game-scroll #search-results-content {
+    overflow: hidden !important;
+    touch-action: none !important; /* reduce accidental gestures behind iframe */
+    height: 100% !important;
+    -webkit-overflow-scrolling: auto !important;
+}
+
+/* Also lock overflow and touch for the in-layer game frame and common embed wrappers when a game is active.
+   This prevents inner iframes or injected bottom bars from producing page scroll on desktop or mobile. */
+.no-game-scroll #game-frame-wrapper,
+.no-game-scroll #game-frame,
+.no-game-scroll iframe,
+.no-game-scroll .wrap,
+.no-game-scroll .bottom-cut {
+    overflow: hidden !important;
+    touch-action: none !important;
+    -webkit-overflow-scrolling: auto !important;
+}
+
+/* When a game session is active we also hide the mobile bottom navigation to maximize vertical space on phones
+   plus: extend the game iframe into the bottom area the mobile bar occupied.
+   We use --vh to account for iOS viewport quirks. */
+.no-game-scroll .mobile-bottom-bar {
+    display: none !important;
+}
+
+/* When a game is active, extend the iframe height to cover the bottom area the mobile bar occupied.
+   Uses the --nexus-bottom-cut variable so embeds using bottom-cut masks will line up correctly.
+   We use --vh to account for iOS viewport quirks. */
+.no-game-scroll #game-frame {
+    height: calc(var(--vh, 1vh) * 100 + var(--nexus-bottom-cut, 9vh)) !important;
+    /* If custom-render frames use absolute positioning, allow them to remain centered by not forcing width */
+    width: 100% !important;
+    position: relative !important;
+    transform: translateY(0) !important;
+}
+
+/* Ensure wrapper doesn't add extra padding that would reduce the new full-bleed effect */
+.no-game-scroll #game-frame-wrapper {
+    padding-bottom: 0 !important;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* Force iframe content to be visible while filling the space (helps with some browsers that crop overflow) */
+.no-game-scroll #game-frame,
+.no-game-scroll #game-frame iframe {
+    min-height: calc(var(--vh, 1vh) * 100 + var(--nexus-bottom-cut, 9vh)) !important;
+}
+
+/* Mobile-only tweak: position details modal slightly lower so it visually sits above the bottom bar area */
+@media (max-width: 640px) {
+    /* Move modal backdrop alignment to bottom so modal card appears above bottom-bar area */
+    #details-modal {
+        align-items: flex-end !important;
+        padding-bottom: calc(env(safe-area-inset-bottom) + 12px) !important;
+    }
+    /* Increase bottom spacing of the modal card so it sits visually over the hidden mobile bar */
+    #details-modal #modal-card {
+        margin-bottom: calc(env(safe-area-inset-bottom) + 72px) !important;
+        border-bottom-left-radius: 12px;
+        border-bottom-right-radius: 12px;
+    }
+    /* Slightly lift the modal card's internal padding to avoid overlap with the bottom safe area */
+    #details-modal #modal-card #modal-card-inner,
+    #details-modal #modal-card .p-5,
+    #details-modal #modal-card .p-8 {
+        padding-bottom: calc(env(safe-area-inset-bottom) + 18px);
+    }
+}
+
+/* Hide main navbar when game is active to maximize screen space */
+.no-game-scroll #navbar {
+    display: none !important;
+}
+
+/* Ensure game-layer remains scroll-free and fills viewport */
+#game-layer {
+    overscroll-behavior: none;
+    touch-action: none;
+}
+
+/* Make sure the iframe itself can still receive pointer events while page body is locked */
+#game-frame {
+    pointer-events: auto !important;
+}
+
+/* Compact card styles for Search and Favorites (override previous oversized rules) */
+.compact-card {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border: 1px solid rgba(255,255,255,0.04);
+    padding: 8px;
+    border-radius: 12px;
+    margin: 10px auto;
+    width: min(92%, 720px);
+    max-width: 720px;
+    cursor: pointer;
+    transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+    box-sizing: border-box; /* ensure padding doesn't expand visual width */
+    overflow: hidden; /* clip any internal overflow so buttons stay inside */
+    white-space: nowrap; /* keep layout compact and avoid wrapping that pushes actions out */
+}
+.compact-card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(2,6,23,0.6); border-color: rgba(124,58,237,0.22); }
+.compact-card:focus { outline: 2px solid rgba(99,102,241,0.18); outline-offset: 2px; }
+
+.compact-thumb {
+    flex: 0 0 110px; /* slightly reduced to free space for actions on narrow screens */
+    height: 68px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #0b1220;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+.compact-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+
+/* body area */
+.compact-body {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex:1 1 auto;
+    gap:12px;
+    min-width: 0; /* allow overflow:hidden on title to work */
+}
+.compact-meta { overflow:hidden; min-width:0; }
+.compact-title {
+    font-weight:800;
+    color:#fff;
+    font-size:0.98rem;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    overflow:hidden;
+}
+.compact-cat {
+    color:#9ca3af;
+    font-size:0.82rem;
+    margin-top:4px;
+}
+
+/* actions */
+.compact-actions {
+    display:flex;
+    gap:8px;
+    align-items:center;
+    flex: 0 0 auto; /* keep actions from shrinking layout unexpectedly */
+    flex-shrink: 0; /* ensure actions stay inside compact card and don't wrap out */
+    margin-left: 8px;
+}
+.compact-play, .compact-fav {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.04);
+    color: #e6eef8;
+    padding: 8px 10px;
+    border-radius: 10px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-width:44px;
+    min-height:36px;
+    cursor:pointer;
+    transition: transform 160ms ease, box-shadow 160ms ease, background-color 140ms ease;
+    box-shadow: 0 6px 18px rgba(2,6,23,0.45);
+    box-sizing: border-box;
+}
+.compact-play:hover, .compact-fav:hover {
+    transform: translateY(-4px);
+    background: linear-gradient(90deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+    box-shadow: 0 12px 28px rgba(2,6,23,0.55);
+}
+.compact-fav i.fas { color: #34d399; } /* green for added state */
+
+/* Improvement: distinguish favorited compact card visually using CSS :has() */
+.compact-card:has(.compact-fav i.fas) {
+    border-color: rgba(52, 211, 153, 0.4) !important; /* subtle green border */
+    background: linear-gradient(180deg, rgba(52, 211, 153, 0.04), rgba(52, 211, 153, 0.01));
+}
+
+.compact-card:hover:has(.compact-fav i.fas) {
+    border-color: rgba(52, 211, 153, 0.6) !important;
+}
+
+.compact-card { transition: transform 220ms cubic-bezier(.22,.9,.35,1), box-shadow 220ms ease; }
+.compact-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(2,6,23,0.6); }
+
+/* make compact cards stack comfortably on narrow screens */
+@media (max-width: 640px) {
+    .compact-card { gap:10px; padding:10px; width: min(94%, 520px); }
+    .compact-thumb { flex: 0 0 110px; height:64px; border-radius:10px; }
+    .compact-title { font-size:1rem; }
+}
+
+/* Ensure old oversized search/favorites selectors no longer force huge cards */
+/* Removed display:none that caused .game-card elements to be hidden and produced
+   layout shrink/bug when many items were present. Previously this rule forced
+   compact-only rendering and broke list/grid sizing. */
+
+/* keep space and scroll behavior tidy for favorites/search containers */
+/* Search results use a responsive grid so cards can size naturally and avoid being squashed.
+   Favorites keep the vertical stacked flow for the library view. */
+#search-results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 12px;
+    align-items: start;
+    padding-bottom: 20px;
+    /* Make the search results grid non-scrollable so it expands with content.
+       Remove explicit overflow and max-height so parent page scroll handles overflow. */
+    overflow: visible;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Keep favorites grid behavior as a stacked list for library UX */
+#favorites-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    padding-bottom: 20px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    max-height: calc(100vh - 160px);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Ensure compact and regular cards inside search results wrap text and use full column width
+   to avoid the "amassado" (squeezed) appearance when many cards are present. */
+#search-results-grid .compact-card,
+#search-results-grid .game-card,
+#search-results-grid .compact-card .compact-meta,
+#search-results-grid .compact-body {
+    white-space: normal;
+    width: 100%;
+    max-width: 720px;
+    box-sizing: border-box;
+}
+
+/* Added safeguard so .game-card used in favorites/search retains sensible max-width
+   and doesn't shrink when many items are present */
+#favorites-grid .game-card,
+#search-results-grid .game-card {
+    display: block;
+    width: 100%;
+    max-width: 720px;
+    box-sizing: border-box;
+    margin: 8px auto;
+}
+#favorites-grid .compact-card,
+#search-results-grid .compact-card {
+    width: 100%;
+    max-width: 720px;
+    box-sizing: border-box;
+    margin: 8px auto;
+}
+
+/* iOS-specific pieceofcake presentation: keep PC 16:9 aspect and center with safe-area support */
+.custom-render-pieceofcake-frame {
+  /* Keep iframe at 16:9 visually, centered, not stretched */
+  width: min(1600px, calc(var(--vh, 1vh) * 100 * (16/9))); /* clamp to reasonable max width */
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 16/9;
+  position: relative !important;
+  top: 0 !important;
+  left: 0 !important;
+  transform: none !important;
+  margin: 0 auto;
+  display: block;
+  box-shadow: 0 14px 40px rgba(2,6,23,0.6);
+  background: black;
+  border-radius: 8px;
+  overflow: hidden;
+  z-index: 30 !important;
+}
+
+/* When in iOS visual fullscreen for pieceofcake, reduce paddings and hide heavy toolbar */
+.ios-minimal-toolbar #navbar,
+.ios-minimal-toolbar .glass-nav {
+  /* hide main page navbar while playing to maximize vertical space */
+  display: none !important;
+}
+
+/* Minimal in-game toolbar reserved area (keeps a tiny back control visible when needed)
+   This appears only inside the game-layer when the ios-minimal-toolbar class is active.
+*/
+.ios-minimal-toolbar #game-layer > .glass-nav {
+  display: flex !important;
+  height: 44px !important;
+  min-height: 44px !important;
+  padding-left: 8px !important;
+  padding-right: 8px !important;
+  align-items: center !important;
+  gap: 8px !important;
+  background: linear-gradient(180deg, rgba(2,6,23,0.92), rgba(2,6,23,0.86)) !important;
+  border-bottom: 1px solid rgba(255,255,255,0.03) !important;
+  box-shadow: none !important;
+}
+
+/* hide secondary toolbar controls to keep the tiny bar minimal */
+.ios-minimal-toolbar #game-layer > .glass-nav .gap,
+.ios-minimal-toolbar #game-layer > .glass-nav .game-volume-control,
+.ios-minimal-toolbar #game-layer > .glass-nav #btn-hide-toolbar {
+  display: none !important;
+}
+
+/* Ensure safe-area inset on top is respected so the tiny toolbar doesn't clash with iOS notch */
+.ios-minimal-toolbar #game-layer {
+  padding-top: env(safe-area-inset-top);
+}
+
+/* Fallback: if forced-fullscreen visual is applied, allow piece frame to use more vertical height */
+.forced-fullscreen .custom-render-pieceofcake-frame,
+.ios-minimal-toolbar .custom-render-pieceofcake-frame {
+  width: min(1800px, calc(var(--vh, 1vh) * 100 * (16/9)));
+  max-width: calc(100% - env(safe-area-inset-left) - env(safe-area-inset-right));
+  height: auto;
+}
+
+/* small tweak: make sure iframe wrapper centers content on small iPhones */
+#game-frame-wrapper.custom-render-pieceofcake-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg,#000 0%, #07070a 100%);
+  padding: 10px; /* small breathing room */
+  box-sizing: border-box;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(2,6,23,0.7), inset 0 1px 0 rgba(255,255,255,0.02);
+  transition: transform 280ms cubic-bezier(.22,.9,.35,1), box-shadow 280ms ease;
+}
+
+/* EXTRA POLISH: subtle sheen animation and improved micro-interactions */
+:root {
+  --sheen-color: rgba(255,255,255,0.04);
+  --glass-accent: linear-gradient(90deg, rgba(124,58,237,0.12), rgba(6,182,212,0.08));
+}
+
+/* gentle moving sheen over hero & important cards to make surfaces feel alive */
+.sheen-surface {
+  position: relative;
+  overflow: hidden;
+}
+.sheen-surface::after{
+  content: "";
+  position: absolute;
+  inset: -40% -20%;
+  background: linear-gradient(120deg, transparent 0%, var(--sheen-color) 50%, transparent 100%);
+  transform: translateX(-100%) rotate(-8deg);
+  filter: blur(10px);
+  opacity: 0.9;
+  pointer-events: none;
+  transition: opacity 240ms ease;
+  animation: sheenMove 6.2s linear infinite;
+  mix-blend-mode: overlay;
+}
+@keyframes sheenMove {
+    0% { transform: translateX(-110%) rotate(-8deg); opacity: 0; }
+    8% { opacity: 0.8; }
+    45% { transform: translateX(10%) rotate(-8deg); opacity: 0.18; }
+    100% { transform: translateX(110%) rotate(-8deg); opacity: 0; }
+}
+
+/* apply subtle glass accent to nav and important controls */
+.glass-panel, .glass-nav, .loader-card {
+  background-image: var(--glass-accent), linear-gradient(180deg, rgba(10,12,18,0.72), rgba(6,8,14,0.54));
+  background-blend-mode: overlay, normal;
+}
+
+/* stronger CTA polish */
+.hero-play {
+    box-shadow: 0 8px 26px rgba(59,130,246,0.12), 0 3px 8px rgba(2,6,23,0.3);
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: transform 160ms cubic-bezier(.2,1,0.22,1), box-shadow 160ms ease;
+}
+.hero-play:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 18px 44px rgba(59,130,246,0.18); }
+
+/* refine favorite badge look */
+.nav-fav-count {
+  background: linear-gradient(90deg,#7c3aed,#06b6d4);
+  box-shadow: 0 8px 20px rgba(99,102,241,0.12);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+/* smoother toast edges and slight blur for depth */
+.toast {
+  border-radius: 999px;
+  backdrop-filter: blur(6px) saturate(120%);
+  -webkit-backdrop-filter: blur(6px) saturate(120%);
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+/* improved focus outlines for accessibility */
+button:focus, .compact-card:focus, .card-play:focus {
+  outline: 3px solid rgba(99,102,241,0.12);
+  outline-offset: 3px;
+  box-shadow: 0 8px 30px rgba(99,102,241,0.06);
+}
+
+/* slightly richer hero text rendering for legibility */
+#hero-section h1 {
+  background: linear-gradient(90deg, rgba(255,255,255,0.96), rgba(240,240,240,0.82));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: -0.6px;
+  text-shadow: 0 12px 30px rgba(2,6,23,0.65);
+}
+
+/* micro-optimizations for mobile performance: reduce sheen and heavy shadows */
+@media (max-width: 640px) {
+  .sheen-surface::after { display: none; }
+  .game-card:hover { transform: translateY(-3px) scale(1.01); box-shadow: 0 12px 24px rgba(0,0,0,0.55); }
+  .loader-card { padding: 14px; }
+
+  /* Mobile-focused lightweight animations and touch polish
+     - Reduce heavy blurs/shadows while keeping lively motion
+     - Add small enter/exit transitions for mobile cards and modal for tactile feel
+     - Use will-change sparingly to hint GPU where beneficial
+  */
+  .mobile-animate .game-card,
+  .mobile-animate .compact-card {
+    transition: transform 220ms cubic-bezier(.22,.9,.35,1), opacity 220ms ease, box-shadow 200ms ease;
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+  }
+
+  /* subtle staggered entrance for lists on mobile */
+  .mobile-animate [data-card-game-id] {
+    opacity: 0;
+    transform: translateY(8px) scale(0.995);
+  }
+  .mobile-animate [data-card-game-id].enter {
+    animation: mobileCardEnter 360ms cubic-bezier(.22,.9,.35,1) both;
+  }
+  @keyframes mobileCardEnter {
+    0% { opacity: 0; transform: translateY(10px) scale(0.995); }
+    60% { opacity: 1; transform: translateY(-2px) scale(1.01); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* mobile modal: smoother slide & fade */
+  .mobile-animate #modal-card {
+    transition: transform 320ms cubic-bezier(.22,.9,.35,1), opacity 260ms ease;
+    will-change: transform, opacity;
+  }
+  .mobile-animate #modal-card.translate-y-full {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  .mobile-animate #modal-card:not(.translate-y-full) {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  /* reduce heavy box-shadows on hovered elements to save GPU */
+  .mobile-animate .game-card:hover,
+  .mobile-animate .compact-card:hover {
+    box-shadow: 0 12px 26px rgba(0,0,0,0.45);
+  }
+
+  /* gentle press feedback for touch targets */
+  .mobile-animate button, .mobile-animate .tab-chip, .mobile-animate .tab-btn {
+    transition: transform 120ms ease, box-shadow 120ms ease;
+  }
+  .mobile-animate button:active, .mobile-animate .tab-chip:active, .mobile-animate .tab-btn:active {
+    transform: translateY(1px) scale(0.995);
+  }
+
+  /* Optimize hero and iframe wrapper to avoid expensive compositing during play */
+  .mobile-animate #hero-section,
+  .mobile-animate #game-frame-wrapper {
+    will-change: auto;
+    backface-visibility: hidden;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+  }
+}
+
+/* utility: add sheen-surface to hero and featured cards */
+#hero-section, .game-card, .loader-card {
+  will-change: transform, opacity;
+}
+#hero-section.sheen-surface, .game-card.sheen-surface, .loader-card.sheen-surface { position: relative; }
+
+/* While a game session is active, ensure main app panes are visually inert and cannot scroll or receive input.
+   This complements the inline JS changes that set pane styles when entering/exiting a game. */
+.no-game-scroll #home-content,
+.no-game-scroll #favorites-content,
+.no-game-scroll #search-results-content {
+  overflow: hidden !important;
+  pointer-events: none !important;
+  touch-action: none !important;
+  height: 100% !important;
+}
+
+/* Smooth transitions and mobile-friendly animations for toolbar controls */
+#btn-hide-toolbar {
+  transition: opacity 220ms ease, transform 200ms cubic-bezier(.2,1,0.22,1);
+  will-change: opacity, transform;
+}
+#btn-hide-toolbar.hidden {
+  opacity: 0 !important;
+  transform: translateY(6px) scale(0.98) !important;
+  pointer-events: none !important;
+}
+
+/* Reveal button that appears when toolbar is hidden on mobile */
+#nexus-mobile-reveal-toolbar {
+  transition: opacity 220ms ease, transform 200ms cubic-bezier(.2,1,0.22,1);
+  will-change: opacity, transform;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+#nexus-mobile-reveal-toolbar.hidden {
+  opacity: 0 !important;
+  transform: translateY(6px) scale(0.98) !important;
+  pointer-events: none !important;
+}
+
+/* iOS small close button transitions */
+#nexus-ios-small-close {
+  transition: opacity 200ms ease, transform 180ms cubic-bezier(.2,1,0.22,1);
+  will-change: opacity, transform;
+  opacity: 1;
+  transform: translateX(0) scale(1);
+}
+#nexus-ios-small-close.hidden {
+  opacity: 0 !important;
+  transform: translateX(-8px) scale(0.98) !important;
+  pointer-events: none !important;
+}
+
+/* Ensure the game-layer top/left toolbar fades smoothly when shown/hidden on mobile landscape */
+@media (max-width: 640px) and (orientation: landscape) {
+  #game-layer > .glass-nav {
+    transition: opacity 260ms ease, transform 260ms cubic-bezier(.22,.9,.35,1);
+    will-change: opacity, transform;
+    opacity: 1;
+  }
+  #game-layer > .glass-nav.hidden {
+    opacity: 0;
+    transform: translateX(-6px) scale(0.995);
+    pointer-events: none;
+  }
+}
+
+/* Small accessibility: prefer reduced motion for users who opt out */
+@media (prefers-reduced-motion: reduce) {
+  #btn-hide-toolbar, #nexus-mobile-reveal-toolbar, #nexus-ios-small-close, #game-layer > .glass-nav {
+    transition: none !important;
+  }
+}
+
+/* ===== Modern button system: primary, ghost, icon, and utility helpers =====
+   Clean, elevated CTAs with accessible focus rings, tactile press feedback and mobile-friendly hit areas.
+*/
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 14px;
+  min-height: 44px;
+  min-width: 44px;
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 0.95rem;
+  line-height: 1;
+  border: 0;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 160ms cubic-bezier(.2,1,.22,1), box-shadow 180ms ease, background 160ms ease, opacity 120ms ease;
+  box-shadow: 0 8px 26px rgba(2,6,23,0.36);
+  will-change: transform, box-shadow;
+}
+
+/* Primary CTA: vibrant gradient, subtle inner glow */
+.button--primary {
+  color: #061024;
+  background: linear-gradient(90deg, #7c3aed 0%, #06b6d4 100%);
+  box-shadow: 0 14px 36px rgba(7,12,30,0.55), 0 4px 14px rgba(124,58,237,0.08);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.button--primary:hover { transform: translateY(-3px); box-shadow: 0 20px 48px rgba(7,12,30,0.6), 0 6px 20px rgba(124,58,237,0.12); }
+.button--primary:active { transform: translateY(0) scale(0.995); box-shadow: 0 10px 22px rgba(7,12,30,0.5); }
+.button--primary:focus { outline: 3px solid rgba(124,58,237,0.16); outline-offset: 4px; }
+
+/* Ghost / secondary: subtle glass with border and colored accent on hover */
+.button--ghost {
+  color: var(--soft-white);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid rgba(255,255,255,0.05);
+  box-shadow: 0 8px 22px rgba(2,6,23,0.32);
+}
+.button--ghost:hover {
+  background: linear-gradient(90deg, rgba(124,58,237,0.12), rgba(6,182,212,0.06));
+  transform: translateY(-2px);
+  border-color: rgba(124,58,237,0.26);
+}
+.button--ghost:active { transform: translateY(0) scale(0.995); }
+.button--ghost:focus { outline: 3px solid rgba(99,102,241,0.12); outline-offset: 4px; }
+
+/* Icon-only button: circular, compact */
+.button--icon {
+  padding: 10px;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.008));
+  border: 1px solid rgba(255,255,255,0.04);
+  box-shadow: 0 8px 18px rgba(2,6,23,0.32);
+}
+.button--icon:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(2,6,23,0.36); }
+.button--icon:active { transform: translateY(0) scale(0.98); }
+.button--icon:focus { outline: 3px solid rgba(99,102,241,0.12); outline-offset: 3px; }
+
+/* Small size variant */
+.button--sm { padding: 8px 10px; min-height: 36px; border-radius: 10px; font-size: 0.88rem; }
+
+/* Disabled state */
+.button[disabled], .button--disabled {
+  opacity: 0.48;
+  transform: none !important;
+  pointer-events: none;
+  box-shadow: none;
+}
+
+/* Utility: subtle micro-icon inside CTA */
+.button i, .button svg { font-size: 0.95rem; display:inline-block; vertical-align:middle; }
+
+/* Make interactive hit areas easier to target on mobile */
+@media (max-width: 640px) {
+  .button { padding: 12px 16px; min-height: 48px; border-radius: 12px; font-size: 1rem; }
+  .button--icon { width:48px; height:48px; min-width:48px; padding:12px; border-radius:12px; }
+}
+
+/* Provide simple helper classes for legacy elements to use new system */
+.btn-primary { all: unset; display:inline-block; box-sizing:border-box; cursor:pointer; }
+.btn-primary.button--primary { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:10px 14px; border-radius:12px; }
+
+/* Map existing named classes to the new styles for smooth migration */
+.hero-play.button--primary, .fav-play-btn.button--primary, .card-play.button--primary {
+  font-weight:800;
+}
+
+/* Accessibility: ensure focus-visible uses the same ring but remains subtle */
+:focus-visible { outline: 3px solid rgba(99,102,241,0.12); outline-offset: 3px; }
+
+/* --- UI polish: Home / Favorites / Search modern look --- */
+#home-content, #favorites-content, #search-results-content {
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+  border-radius: 14px;
+  padding: 10px 0 22px;
+  box-shadow: 0 18px 48px rgba(2,6,23,0.55);
+  border: 1px solid rgba(255,255,255,0.02);
+  transition: transform 320ms cubic-bezier(.22,.9,.35,1), box-shadow 320ms ease;
+}
+
+/* Slight lift on hover/focus to imply interactivity (desktop only) */
+@media (min-width: 641px) {
+  #home-content:hover, #favorites-content:hover, #search-results-content:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 26px 70px rgba(2,6,23,0.65);
+  }
+}
+
+/* Section containers inside panes get subtle card look */
+#home-content .row-section, #favorites-content .row-section, #search-results-content .row-section {
+  background: linear-gradient(180deg, rgba(255,255,255,0.012), rgba(255,255,255,0.004));
+  border: 1px solid rgba(255,255,255,0.03);
+  border-radius: 14px;
+  padding: 12px;
+}
+
+/* Make search results and favorites cards feel more elevated and consistent */
+#search-results-grid .game-card, #favorites-grid .game-card, #search-results-grid .compact-card, #favorites-grid .compact-card {
+  border-radius: 14px;
+  box-shadow: 0 14px 36px rgba(2,6,23,0.52);
+  transition: transform 260ms cubic-bezier(.22,.9,.35,1), box-shadow 260ms ease, border-color 200ms ease;
+}
+
+/* Subtle header accent for sections in these panes */
+#home-content .section-title, #favorites-content .section-title, #search-results-content .section-title {
+  border-left-color: rgba(124,58,237,0.8);
+  padding-left: 0.75rem;
+  margin-bottom: 12px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.01), transparent);
+  border-radius: 8px;
+  display: inline-block;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+/* Improve empty & placeholder states (centered card with CTA feel) */
+#favorites-content .fav-empty, #search-results-content #no-search-results-msg, #favorites-content #no-favorites-msg {
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+  border: 1px dashed rgba(255,255,255,0.04);
+  border-radius: 12px;
+  padding: 22px;
+  box-shadow: 0 8px 28px rgba(2,6,23,0.48);
+}
+
+/* Slightly larger titles on mobile for readability */
+@media (max-width: 640px) {
+  #search-results-content .section-title, #favorites-content .section-title {
+    font-size: 1.15rem;
+  }
+}
+
+/* End of modern button system */
+
+/* ===== Override: Modernized Global Loading Screen =====
+   Added at end to avoid touching existing rules; these styles enhance the loader
+   card with a softer glass panel, animated gradient ring, subtle pulsating dots,
+   smoother progress bar with glow, and improved mobile scaling.
+*/
+#global-loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    padding: 20px;
+    background: linear-gradient(180deg, rgba(2,6,23,0.92), rgba(2,6,23,0.96));
+    transition: opacity 280ms ease, visibility 200ms linear;
+    pointer-events: auto;
+}
+
+#global-loader.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.loader-card {
+    width: min(96%, 520px);
+    max-width: 520px;
+    background: linear-gradient(180deg, rgba(15,23,42,0.96), rgba(9,12,18,0.88));
+    border-radius: 16px;
+    padding: 18px;
+    box-shadow: 0 30px 90px rgba(2,6,23,0.7), 0 10px 30px rgba(124,58,237,0.06);
+    border: 1px solid rgba(255,255,255,0.04);
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    backdrop-filter: blur(10px) saturate(120%);
+}
+
+.loader-card .glow-ring {
+    width: 64px;
+    height: 64px;
+    min-width: 64px;
+    border-radius: 999px;
+    background: conic-gradient(from 180deg at 50% 50%, rgba(124,58,237,0.98), rgba(59,130,246,0.95), rgba(6,182,212,0.9));
+    box-shadow: 0 12px 36px rgba(99,102,241,0.12), 0 6px 18px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.06);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: loaderRingRotate 2200ms linear infinite;
+}
+
+.loader-card .glow-ring::after {
+    content: "";
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+    box-shadow: inset 0 2px 6px rgba(255,255,255,0.03);
+}
+
+@keyframes loaderRingRotate {
+    0% { transform: rotate(0deg) scale(1); opacity: 1; }
+    50% { transform: rotate(180deg) scale(1.03); opacity: 0.95; }
+    100% { transform: rotate(360deg) scale(1); opacity: 1; }
+}
+
+.loader-card .loader-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+#global-loader-title {
+    font-size: 1.05rem;
+    color: #fff;
+    font-weight: 800;
+    letter-spacing: -0.2px;
+}
+
+#global-loader-sub {
+    font-size: 0.93rem;
+    color: #cbd5e1;
+    line-height: 1.15;
+    margin-top: 2px;
+    max-width: 42ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.progress-track {
+    height: 10px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.04);
+    overflow: hidden;
+    margin-top: 8px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg,#3b82f6,#8b5cf6);
+    box-shadow: 0 6px 22px rgba(124,58,237,0.16);
+    border-radius: 999px;
+    transition: width 420ms cubic-bezier(.22,.9,.35,1);
+}
+
+.loader-dots {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    justify-content: flex-end;
+    margin-left: auto;
+    min-width: 64px;
+}
+
+.loader-dots span {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.12);
+    display: inline-block;
+    transform-origin: center;
+    animation: loaderDotPulse 1000ms infinite ease-in-out;
+}
+
+.loader-dots span:nth-child(2) { animation-delay: 120ms; }
+.loader-dots span:nth-child(3) { animation-delay: 240ms; }
+
+@keyframes loaderDotPulse {
+    0% { transform: translateY(0) scale(1); opacity: 0.45; background: rgba(255,255,255,0.12); }
+    50% { transform: translateY(-6px) scale(1.15); opacity: 1; background: rgba(255,255,255,0.95); }
+    100% { transform: translateY(0) scale(1); opacity: 0.45; background: rgba(255,255,255,0.12); }
+}
+
+/* Responsive tweaks for small screens */
+@media (max-width: 640px) {
+    .loader-card {
+        gap: 10px;
+        padding: 14px;
+    }
+    .loader-card .glow-ring { width: 50px; height: 50px; min-width: 50px; }
+    #global-loader-title { font-size: 1rem; }
+    #global-loader-sub { font-size: 0.9rem; max-width: 34ch; white-space: normal; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .progress-track { height: 8px; }
+}
+
+/* Utility helper: visually indicate indeterminate progress with soft shimmer when width is low */
+.progress-fill.indeterminate {
+    width: 40%;
+    background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(124,58,237,0.16), rgba(255,255,255,0.06));
+    background-size: 200% 100%;
+    animation: progressShimmer 1400ms linear infinite;
+}
+
+@keyframes progressShimmer {
+    0% { background-position: 0% 0; }
+    100% { background-position: 200% 0; }
+}
+
+/* Make sure the loader remains above iframe and toolbar */
+#global-loader { z-index: 240 !important; }

@@ -1,0 +1,38 @@
+# Lista de Jogos Disponíveis
+
+- Subway Surfers — 2012 — Kiloo & SYBO
+- Friday Night Funkin' — 2020 — The Funkin’ Crew (ninjamuffin99, PhantomArcade, Kawai Sprite, evilsk8r)
+- Krunker.io — 2018 — Yendis Entertainment
+- Venge.io — 2020 — OnRush Studio
+- Shell Shockers — 2017 — Blue Wizard Digital
+- Smash Karts — 2020 — Tall Team
+- Tomb of the Mask — 2016 — Happymagenta / Playgendary
+- Ev.io — 2021 — Addicting Games / Equipe ev.io
+- Minecraft Web — 2019 — Mojang
+- FNAF 1 — 2014 — Scott Cawthon
+- FNAF 2 — 2014 — Scott Cawthon
+- FNAF 3 — 2015 — Scott Cawthon
+- FNAF 4 — 2015 — Scott Cawthon
+- FNAF Sister Location — 2016 — Scott Cawthon
+- Baldi's Basics in Education and Learning — 2018 — Micah “mystman12” McGonigal (Basically Games)
+- Imagine Island — 2024 — Magic Potion Games
+- Rumble Rush — 2025 — PocketHaven
+- Star Stuff — 2024 — Ánimo Games Studio
+- Escape From Prison Multiplayer — 2024 — Dinobros
+- Toodee and Topdee — 2021 — dietzribi
+- Duo — 2025 — Ánimo Games Studio
+- Stumble Guys — 2021 — Kitka Games & Scopely
+- Piece of Cake: Merge & Bake — 2024 — HG Devs / Happy Games
+- Cut The Rope Magic — 2015 — ZeptoLab
+- Vectaria — 2024/2025 (web) — Vectaria.io
+- Om Nom: Run — 2020 — Koukoi Games / ZeptoLab
+- Cut the Rope: Experiments — 2011 — ZeptoLab
+- BitLife — 2018 — CandyWriter
+- Brain Test 2: Tricky Stories — 2020 — Unico Studio
+- Ludo King — 2016 — Gametion
+- Candy Crush Saga — 2012 — King
+- Among Us — 2018 — Innersloth
+- Temple Run 2 — 2013 — Imangi Studios
+- Block Blast — 2019–2022 — Hungry Studio (varia por versão)
+- Level Devil — 2022–2023 — Unept
+- The Last Stand — (Flash) — (SWF via Ruffle embed)

@@ -1,0 +1,66 @@
+// ... existing code ...
+
+        } catch (e) {
+            // ensure we never break app flow if detector setup fails
+            console.warn('devtoolsReliableDetect init failed', e);
+        }
+    })();
+
+// --- RUNTIME ANTI-TAMPER / INTEGRITY PROBES (added) ---
+    (function runtimeAntiTamper() {
+        // Anti-tamper checks disabled by configuration to prevent defensive overlay or session suspension.
+        // Provide simple compatibility stubs.
+        window.__nexus_integrity_ok = true;
+    })();
+
+// ... existing code ...
+
+function closeGame() {
+    try {
+        // disable keyboard isolation when leaving a game
+        try { disableExtensionKeyIsolation(); } catch (e) { console.warn('disableExtensionKeyIsolation failed', e); }
+        // stop watching iframe
+        stopIframeWatch();
+        // Restore page scrolling and touch behavior now that game session ended
+        try { document.documentElement.classList.remove('no-game-scroll'); } catch (e) {}
+
+        // Attempt to gently stop audio/video inside the iframe (best-effort for same-origin; postMessage for cross-origin)
+        try {
+            // Try same-origin direct pause
+            try {
+                const win = gameFrame && gameFrame.contentWindow;
+                if (win && win.document) {
+                    const mediaEls = Array.from(win.document.querySelectorAll('audio, video'));
+                    mediaEls.forEach(m => {
+                        try { m.pause(); m.currentTime && (m.currentTime = 0); } catch (e) {}
+                    });
+                }
+            } catch (e) {
+                // cross-origin likely; fallback to postMessage hint
+                try {
+                    if (gameFrame && gameFrame.contentWindow && typeof gameFrame.contentWindow.postMessage === 'function') {
+                        gameFrame.contentWindow.postMessage({ type: 'nexus:stopAllAudio' }, '*');
+                    }
+                } catch (ee) {}
+            }
+
+            // NEW: extra best-effort: if the iframe uses an inner embed (srcdoc -> inner iframe like in embedHtml), 
+            // try to reach inside via contentWindow to stop or unload that inner iframe (same-origin only).
+            try {
+                const win = gameFrame && gameFrame.contentWindow;
+                if (win && win.document) {
+                    const inner = win.document.querySelector('iframe, webview');
+                    if (inner) {
+                        try { inner.src = 'about:blank'; } catch (e) {}
+                        try { inner.remove(); } catch (e) {}
+                    }
+                } else {
+                    // If cross-origin, still send a second gentle message asking inner embeds to mute/stop (some embeds honor it)
+                    try {
+                        gameFrame.contentWindow.postMessage({ type: 'nexus:stopAllAudio' }, '*');
+                    } catch (e) {}
+                }
+            } catch (e) {
+                // ignore cross-origin/access errors
+            }
+        } catch (e) {}

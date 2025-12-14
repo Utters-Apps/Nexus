@@ -1,0 +1,27 @@
+    // prevent pointer events reaching the iframe where the black bar covers it
+    cut.addEventListener('pointerdown', function(e){ e.stopPropagation(); e.preventDefault(); }, { passive: false });
+    cut.addEventListener('click', function(e){
+      try {
+        e.stopPropagation();
+        e.preventDefault();
+        // try to focus inner iframe so subsequent interactions go to it
+        try { inner.focus(); } catch (err) {}
+        // best-effort: notify inner iframe via postMessage (many embeds ignore, but some may accept)
+        try { inner.contentWindow && inner.contentWindow.postMessage && inner.contentWindow.postMessage({ type: 'nexus:bottomCutClick' }, '*'); } catch(err){}
+      } catch (err) {}
+    }, { passive: false });
+
+    // If inner iframe is same-origin, prevent contextmenu inside it as well
+    inner.addEventListener('load', function(){
+      try {
+        var w = inner.contentWindow;
+        if (w && w.document) {
+          w.document.addEventListener('contextmenu', function(e){ e.preventDefault(); }, { passive: false });
+        }
+      } catch (e) {
+        // cross-origin - nothing to do
+      }
+    }, { passive: true });
+  })();
+</script>
+
